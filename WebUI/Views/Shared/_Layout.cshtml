@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PlaneStore</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body>
+    <nav class="navbar bg-dark" role="navigation">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Sklep samolotowy</a>
+        </div>
+    </nav>
+    <div class="row m-1 p-1">
+        <div id="categories" class="col-3">
+            Available soon&trade;
+        </div>
+        <div class="col-9">
+            @RenderBody()
+        </div>
+    </div>
+</body>
+</html>
