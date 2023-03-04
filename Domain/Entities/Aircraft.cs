@@ -2,9 +2,12 @@
 {
     public class Aircraft
     {
-        public int Id { get; set; }
-        public string Name { get; set; } = string.Empty;
+        public Guid Id { get; set; }
+        public required string Name { get; set; }
         public string Description { get; set; } = string.Empty;
         public decimal Price { get; set; }
+
+        public required Guid ManufacturerId { get; set; }
+        public Manufacturer Manufacturer { get; set; } = null!;
     }
 }

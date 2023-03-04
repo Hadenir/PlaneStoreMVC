@@ -5,15 +5,15 @@ using PlaneStore.Infrastructure.Data;
 
 namespace PlaneStore.Infrastructure.Repositories
 {
-    internal class AircraftRepository : IAircraftRepository
+    public class ManufacturerRepository : IManufacturerRepository
     {
         private readonly ApplicationDbContext _dbContext;
 
-        public AircraftRepository(ApplicationDbContext dbContext)
+        public ManufacturerRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public IQueryable<Aircraft> Aircraft => _dbContext.Aircraft.Include(a => a.Manufacturer);
+        public IQueryable<Manufacturer> Manufacturers => _dbContext.Manufacturers.Include(m => m.ProducedAircraft);
     }
 }

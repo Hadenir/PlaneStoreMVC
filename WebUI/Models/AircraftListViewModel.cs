@@ -5,6 +5,6 @@ namespace PlaneStore.WebUI.Models
     public class AircraftListViewModel
     {
         public IEnumerable<Aircraft> Aircraft { get; set; } = Enumerable.Empty<Aircraft>();
-        public PagingInfo PagingInfo { get; set; } = null!;
+        public required PagingInfo PagingInfo { get; set; }
     }
 }

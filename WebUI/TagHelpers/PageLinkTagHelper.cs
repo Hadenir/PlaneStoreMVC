@@ -21,9 +21,9 @@ namespace PlaneStore.WebUI.TagHelpers
         [HtmlAttributeNotBound]
         public ViewContext ViewContext { get; set; } = null!;
 
-        public PagingInfo PageModel { get; set; } = null!;
+        public required PagingInfo PageModel { get; set; }
 
-        public string PageAction { get; set; } = string.Empty;
+        public required string PageAction { get; set; }
 
         public string? PageClass { get; set; }
         public string? PageClassNormal { get; set; }

@@ -2,7 +2,7 @@
 
 @foreach (var aircraft in Model.Aircraft)
 {
-    @Html.Partial("AircraftSummary", aircraft);
+    @await Html.PartialAsync("AircraftSummary", aircraft);
 }
 
 <div page-action="List" page-model="@Model.PagingInfo"

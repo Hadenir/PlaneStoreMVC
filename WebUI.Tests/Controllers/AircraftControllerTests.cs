@@ -15,11 +15,11 @@ namespace PlaneStore.WebUI.Tests.Controllers
             var mock = new Mock<IAircraftRepository>();
             mock.Setup(m => m.Aircraft)
                 .Returns(new[] {
-                    new Aircraft { Id = 1, Name = "A1" },
-                    new Aircraft { Id = 2, Name = "A2" },
-                    new Aircraft { Id = 3, Name = "A3" },
-                    new Aircraft { Id = 4, Name = "A4" },
-                    new Aircraft { Id = 5, Name = "A5" }
+                    new Aircraft { Id = Guid.NewGuid(), Name = "A1", ManufacturerId = Guid.Empty },
+                    new Aircraft { Id = Guid.NewGuid(), Name = "A2", ManufacturerId = Guid.Empty },
+                    new Aircraft { Id = Guid.NewGuid(), Name = "A3", ManufacturerId = Guid.Empty },
+                    new Aircraft { Id = Guid.NewGuid(), Name = "A4", ManufacturerId = Guid.Empty },
+                    new Aircraft { Id = Guid.NewGuid(), Name = "A5", ManufacturerId = Guid.Empty }
                 }.AsQueryable());
 
             var controller = new AircraftController(mock.Object)
@@ -42,11 +42,11 @@ namespace PlaneStore.WebUI.Tests.Controllers
             var mock = new Mock<IAircraftRepository>();
             mock.Setup(m => m.Aircraft)
                 .Returns(new[] {
-                new Aircraft { Id = 1, Name = "A1" },
-                new Aircraft { Id = 2, Name = "A2" },
-                new Aircraft { Id = 3, Name = "A3" },
-                new Aircraft { Id = 4, Name = "A4" },
-                new Aircraft { Id = 5, Name = "A5" }
+                new Aircraft { Id = Guid.NewGuid(), Name = "A1", ManufacturerId = Guid.Empty },
+                new Aircraft { Id = Guid.NewGuid(), Name = "A2", ManufacturerId = Guid.Empty },
+                new Aircraft { Id = Guid.NewGuid(), Name = "A3", ManufacturerId = Guid.Empty },
+                new Aircraft { Id = Guid.NewGuid(), Name = "A4", ManufacturerId = Guid.Empty },
+                new Aircraft { Id = Guid.NewGuid(), Name = "A5", ManufacturerId = Guid.Empty }
                 }.AsQueryable());
 
             var controller = new AircraftController(mock.Object)

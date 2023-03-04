@@ -12,7 +12,7 @@ using PlaneStore.Infrastructure.Data;
 namespace PlaneStore.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230304132845_Initial")]
+    [Migration("20230304160718_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -227,17 +227,18 @@ namespace PlaneStore.Infrastructure.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("PlaneStore.Domain.Models.Aircraft", b =>
+            modelBuilder.Entity("PlaneStore.Domain.Entities.Aircraft", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ManufacturerId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -248,7 +249,24 @@ namespace PlaneStore.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ManufacturerId");
+
                     b.ToTable("Aircraft");
+                });
+
+            modelBuilder.Entity("PlaneStore.Domain.Entities.Manufacturer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Manufacturers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -300,6 +318,22 @@ namespace PlaneStore.Infrastructure.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("PlaneStore.Domain.Entities.Aircraft", b =>
+                {
+                    b.HasOne("PlaneStore.Domain.Entities.Manufacturer", "Manufacturer")
+                        .WithMany("ProducedAircraft")
+                        .HasForeignKey("ManufacturerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Manufacturer");
+                });
+
+            modelBuilder.Entity("PlaneStore.Domain.Entities.Manufacturer", b =>
+                {
+                    b.Navigation("ProducedAircraft");
                 });
 #pragma warning restore 612, 618
         }
