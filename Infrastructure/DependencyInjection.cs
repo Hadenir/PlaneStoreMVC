@@ -20,6 +20,7 @@ namespace PlaneStore.Infrastructure
                     b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
+            services.AddTransient<IManufacturerRepository, ManufacturerRepository>();
             services.AddTransient<IAircraftRepository, AircraftRepository>();
 
             return services;

@@ -14,6 +14,6 @@ namespace PlaneStore.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public IQueryable<Aircraft> Aircraft => _dbContext.Aircraft.Include(a => a.Manufacturer);
+        public IQueryable<Aircraft> Aircraft => _dbContext.Aircraft;
     }
 }
