@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PlaneStore.Domain.Entities;
 using PlaneStore.Domain.Repositories;
 using PlaneStore.WebUI.Models;
@@ -28,6 +29,7 @@ namespace PlaneStore.WebUI.Controllers
             {
                 Aircraft = _aircraftRepository
                     .FindAll(a => manufacturerId == null || a.ManufacturerId == manufacturerId)
+                    .Include(a => a.Manufacturer)
                     .OrderBy(a => a.Id)
                     .Skip((page - 1) * PageSize)
                     .Take(PageSize),

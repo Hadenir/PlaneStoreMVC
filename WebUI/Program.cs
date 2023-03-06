@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Identity;
 using PlaneStore.Infrastructure;
 using PlaneStore.Infrastructure.Data;
 using PlaneStore.Application;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 namespace PlaneStore.WebUI
 {
@@ -34,6 +36,17 @@ namespace PlaneStore.WebUI
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            var supportedCultures = new[]
+            {
+                new CultureInfo("en-US"),
+            };
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("en-US"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures,
+            });
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
