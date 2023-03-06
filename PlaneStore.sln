@@ -15,11 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{B08BA927-E6F3-4D1A-9EC8-4B8A19E7B1DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Tests", "Application.Tests\Application.Tests.csproj", "{E4278E32-435B-4C5B-9CDF-8D61AED6BDA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Tests", "Application.Tests\Application.Tests.csproj", "{E4278E32-435B-4C5B-9CDF-8D61AED6BDA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Tests", "Infrastrcuture.Tests\Infrastructure.Tests.csproj", "{66BA40B7-5643-4DF8-A373-FD26BB866B9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Tests", "Infrastrcuture.Tests\Infrastructure.Tests.csproj", "{66BA40B7-5643-4DF8-A373-FD26BB866B9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebUI.Tests", "WebUI.Tests\WebUI.Tests.csproj", "{D7E7ACE1-C4E8-4033-870F-06E17599C8C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebUI.Tests", "WebUI.Tests\WebUI.Tests.csproj", "{D7E7ACE1-C4E8-4033-870F-06E17599C8C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -4,7 +4,7 @@ namespace PlaneStore.WebUI.Models
 {
     public class AircraftListViewModel
     {
-        public IEnumerable<Aircraft> Aircraft { get; set; } = Enumerable.Empty<Aircraft>();
+        public required IEnumerable<Aircraft> Aircraft { get; set; }
         public required PagingInfo PagingInfo { get; set; }
         public Manufacturer? SelectedManufacturer { get; set; }
     }

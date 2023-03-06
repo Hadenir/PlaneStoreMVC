@@ -12,8 +12,8 @@
         </div>
     </nav>
     <div class="row m-1 p-1">
-        <div id="categories" class="col-3">
-            Available soon&trade;
+        <div id="categories" class="col-3 d-flex flex-column">
+            @await Component.InvokeAsync("NavigationMenu", new { manufacturerId = Model.SelectedManufacturer?.Id })
         </div>
         <div class="col-9">
             @RenderBody()

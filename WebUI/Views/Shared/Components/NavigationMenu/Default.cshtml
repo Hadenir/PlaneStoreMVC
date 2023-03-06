@@ -1,0 +1,19 @@
+﻿@using PlaneStore.WebUI.Models.Components;
+@model NavigationMenuViewModel
+
+<a class="btn btn-outline-secondary m-1"
+   asp-action="List"
+   asp-controller="Aircraft"
+   asp-route-manufacturerId="">
+    Main Page
+</a>
+@foreach (var manufacturer in Model.Manufacturers)
+{
+    <a class="btn btn-outline-@(manufacturer.Id == Model.SelectedManufacturer?.Id ? "primary" : "secondary") m-1"
+       asp-action="List"
+       asp-controller="Aircraft"
+       asp-route-page="1"
+       asp-route-manufacturerId="@manufacturer.Id">
+        @manufacturer.Name
+    </a>
+}

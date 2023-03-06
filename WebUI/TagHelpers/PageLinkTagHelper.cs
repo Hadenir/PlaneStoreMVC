@@ -25,6 +25,9 @@ namespace PlaneStore.WebUI.TagHelpers
 
         public required string PageAction { get; set; }
 
+        [HtmlAttributeName(DictionaryAttributePrefix = "page-url-")]
+        public Dictionary<string, object?> PageUrlValues { get; set; } = new Dictionary<string, object?>();
+
         public string? PageClass { get; set; }
         public string? PageClassNormal { get; set; }
         public string? PageClassSelected { get; set; }
@@ -33,10 +36,12 @@ namespace PlaneStore.WebUI.TagHelpers
         {
             IUrlHelper urlHelper = _urlHelperFactory.GetUrlHelper(ViewContext);
             var divBuilder = new TagBuilder("div");
-            for(int page = 1; page <= PageModel.TotalPages; page++)
+            for (int page = 1; page <= PageModel.TotalPages; page++)
             {
                 var aBuilder = new TagBuilder("a");
-                aBuilder.Attributes["href"] = urlHelper.Action(PageAction, new { page });
+
+                PageUrlValues["page"] = page;
+                aBuilder.Attributes["href"] = urlHelper.Action(PageAction, PageUrlValues);
 
                 if (PageClass is not null)
                     aBuilder.AddCssClass(PageClass);
