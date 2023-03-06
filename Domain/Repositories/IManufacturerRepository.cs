@@ -2,8 +2,6 @@
 
 namespace PlaneStore.Domain.Repositories
 {
-    public interface IManufacturerRepository
-    {
-        IQueryable<Manufacturer> Manufacturers { get; }
-    }
+    public interface IManufacturerRepository : IGenericRepository<Manufacturer>
+    {}
 }

@@ -2,8 +2,6 @@
 
 namespace PlaneStore.Domain.Repositories
 {
-    public interface IAircraftRepository
-    {
-        IQueryable<Aircraft> Aircraft { get; }
-    }
+    public interface IAircraftRepository : IGenericRepository<Aircraft>
+    {}
 }

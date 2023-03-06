@@ -5,15 +5,9 @@ using PlaneStore.Infrastructure.Data;
 
 namespace PlaneStore.Infrastructure.Repositories
 {
-    internal class AircraftRepository : IAircraftRepository
+    internal class AircraftRepository : GenericRepository<Aircraft>, IAircraftRepository
     {
-        private readonly ApplicationDbContext _dbContext;
-
-        public AircraftRepository(ApplicationDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
-
-        public IQueryable<Aircraft> Aircraft => _dbContext.Aircraft;
+        public AircraftRepository(ApplicationDbContext context) : base(context)
+        {}
     }
 }

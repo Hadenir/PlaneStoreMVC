@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Moq;
 using PlaneStore.Domain.Entities;
 using PlaneStore.Domain.Repositories;
 using PlaneStore.WebUI.Controllers;
 using PlaneStore.WebUI.Models;
+using PlaneStore.WebUI.Tests.Mocks;
 using Xunit;
 
 namespace PlaneStore.WebUI.Tests.Controllers
@@ -22,24 +22,20 @@ namespace PlaneStore.WebUI.Tests.Controllers
                 new Manufacturer { Id = Guid.NewGuid(), Name = "M1" },
                 new Manufacturer { Id = Guid.NewGuid(), Name = "M2" },
                 new Manufacturer { Id = Guid.NewGuid(), Name = "M3" },
-            };
+            }.OrderBy(m => m.Id).ToList();
 
-            var manufacturerRepository = new Mock<IManufacturerRepository>();
-            manufacturerRepository.Setup(m => m.Manufacturers).Returns(manufacturers.OrderBy(m => m.Id).AsQueryable());
-            _manufacturerRepository = manufacturerRepository.Object;
+            _manufacturerRepository = new ManufacturerRepositoryMock(manufacturers, m => m.Id);
 
-            var aircraft = new[] 
+            var aircraft = new[]
             {
                 new Aircraft { Id = Guid.NewGuid(), Name = "A1", ManufacturerId = manufacturers[0].Id },
                 new Aircraft { Id = Guid.NewGuid(), Name = "A2", ManufacturerId = manufacturers[0].Id },
                 new Aircraft { Id = Guid.NewGuid(), Name = "A3", ManufacturerId = manufacturers[1].Id },
                 new Aircraft { Id = Guid.NewGuid(), Name = "A4", ManufacturerId = manufacturers[2].Id },
                 new Aircraft { Id = Guid.NewGuid(), Name = "A5", ManufacturerId = manufacturers[1].Id },
-            };
+            }.OrderBy(a => a.Id).ToList();
 
-            var aircraftRepository = new Mock<IAircraftRepository>();
-            aircraftRepository.Setup(m => m.Aircraft).Returns(aircraft.OrderBy(a => a.Id).AsQueryable());
-            _aircraftRepository = aircraftRepository.Object;
+            _aircraftRepository = new AircraftRepositoryMock(aircraft, a => a.Id);
 
             _controller = new AircraftController(_aircraftRepository, _manufacturerRepository);
         }
@@ -47,7 +43,7 @@ namespace PlaneStore.WebUI.Tests.Controllers
         [Fact]
         public void Can_Paginate()
         {
-            var aircraft = _aircraftRepository.Aircraft.ToList();
+            var aircraft = _aircraftRepository.GetAll().ToList();
             _controller.PageSize = 3;
 
             var result = (_controller.List(page: 2) as ViewResult)?.Model as AircraftListViewModel;
@@ -76,7 +72,7 @@ namespace PlaneStore.WebUI.Tests.Controllers
         [Fact]
         public void Can_Filter_By_Manufacturer()
         {
-            var manufacturers = _manufacturerRepository.Manufacturers.ToList();
+            var manufacturers = _manufacturerRepository.GetAll().ToList();
             _controller.PageSize = 3;
 
             var result = (_controller.List(manufacturers[1].Id) as ViewResult)?.Model as AircraftListViewModel;

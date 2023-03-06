@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using PlaneStore.Domain.Entities;
 using PlaneStore.Domain.Repositories;
 using PlaneStore.WebUI.Models;
@@ -23,12 +22,12 @@ namespace PlaneStore.WebUI.Controllers
         {
             Manufacturer? manufacturer = manufacturerId is null
                 ? null
-                : _manufacturerRepository.Manufacturers.FirstOrDefault(m => m.Id == manufacturerId);
+                : _manufacturerRepository.GetById(manufacturerId);
 
             var model = new AircraftListViewModel
             {
-                Aircraft = _aircraftRepository.Aircraft
-                    .Where(a => manufacturerId == null || a.ManufacturerId == manufacturerId)
+                Aircraft = _aircraftRepository
+                    .FindAll(a => manufacturerId == null || a.ManufacturerId == manufacturerId)
                     .OrderBy(a => a.Id)
                     .Skip((page - 1) * PageSize)
                     .Take(PageSize),
@@ -36,7 +35,9 @@ namespace PlaneStore.WebUI.Controllers
                 {
                     CurrentPage = page,
                     ItemsPerPage = PageSize,
-                    TotalItems = _aircraftRepository.Aircraft.Count(),
+                    TotalItems = _aircraftRepository
+                        .FindAll(a => manufacturerId == null || a.ManufacturerId == manufacturerId)
+                        .Count(),
                 },
                 SelectedManufacturer = manufacturer,
             };
