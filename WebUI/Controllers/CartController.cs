@@ -1,26 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PlaneStore.Application.Models;
 using PlaneStore.Domain.Repositories;
 using PlaneStore.WebUI.Models;
-using PlaneStore.WebUI.Utilities;
 
 namespace PlaneStore.WebUI.Controllers
 {
     public class CartController : Controller
     {
         private readonly IAircraftRepository _aircraftRepository;
+        private readonly Cart _cart;
 
-        public CartController(IAircraftRepository aircraftRepository)
+        public CartController(IAircraftRepository aircraftRepository, Cart cart)
         {
             _aircraftRepository = aircraftRepository;
+            _cart = cart;
         }
 
         public IActionResult Index(string returnUrl = "/")
         {
-            var cart = HttpContext.Session.GetJson<Cart>("cart") ?? new();
-
             return View(new CartViewModel
             {
-                Cart = cart,
+                Cart = _cart,
                 ReturnUrl = returnUrl,
             });
         }
@@ -31,9 +31,7 @@ namespace PlaneStore.WebUI.Controllers
             var aircraft = _aircraftRepository.GetById(aircraftId);
             if (aircraft is not null)
             {
-                var cart = HttpContext.Session.GetJson<Cart>("cart") ?? new();
-                cart.AddItem(aircraft, 1);
-                HttpContext.Session.SetJson("cart", cart);
+                _cart.AddItem(aircraft, 1);
             }
 
             return RedirectToAction("Index", new { returnUrl });

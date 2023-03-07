@@ -11,7 +11,8 @@
         <a class="btn @(manufacturer.Id == Model.SelectedManufacturer?.Id ? "btn-primary" : "btn-outline-secondary")"
            asp-controller="Home"
            asp-action="Index"
-           asp-route-manufacturerId="@manufacturer.Id">
+           asp-route-manufacturerId="@manufacturer.Id"
+           asp-route-currentPage="1">
             @manufacturer.Name
         </a>
     }

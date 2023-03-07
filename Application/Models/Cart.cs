@@ -1,6 +1,6 @@
 ﻿using PlaneStore.Domain.Entities;
 
-namespace PlaneStore.WebUI.Models
+namespace PlaneStore.Application.Models
 {
     public class CartLine
     {
@@ -13,7 +13,7 @@ namespace PlaneStore.WebUI.Models
     {
         public List<CartLine> Lines { get; private set; } = new();
 
-        public void AddItem(Aircraft aircraft, int quantity)
+        public virtual void AddItem(Aircraft aircraft, int quantity)
         {
             CartLine? cartLine = Lines
                 .Where(a => a.Aircraft.Id == aircraft.Id)
@@ -33,10 +33,10 @@ namespace PlaneStore.WebUI.Models
             }
         }
 
-        public void RemoveItem(Aircraft aircraft) => Lines.RemoveAll(l => l.Aircraft.Id == aircraft.Id);
+        public virtual void RemoveItem(Aircraft aircraft) => Lines.RemoveAll(l => l.Aircraft.Id == aircraft.Id);
 
         public decimal ComputeTotalPrice() => Lines.Sum(l => l.Quantity * l.Aircraft.Price);
 
-        public void Clear() => Lines.Clear();
+        public virtual void Clear() => Lines.Clear();
     }
 }

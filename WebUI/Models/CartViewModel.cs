@@ -1,4 +1,6 @@
-﻿namespace PlaneStore.WebUI.Models
+﻿using PlaneStore.Application.Models;
+
+namespace PlaneStore.WebUI.Models
 {
     public class CartViewModel
     {

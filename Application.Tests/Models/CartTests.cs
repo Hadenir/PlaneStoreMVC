@@ -1,8 +1,8 @@
-﻿using PlaneStore.Domain.Entities;
-using PlaneStore.WebUI.Models;
+﻿using PlaneStore.Application.Models;
+using PlaneStore.Domain.Entities;
 using Xunit;
 
-namespace PlaneStore.WebUI.Tests.Models
+namespace PlaneStore.Application.Tests.Models
 {
     public class CartTests
     {

@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using PlaneStore.Application;
+using PlaneStore.Application.Models;
 using PlaneStore.Infrastructure;
 using PlaneStore.Infrastructure.Data;
+using PlaneStore.WebUI.Services;
 using System.Globalization;
 
 namespace PlaneStore.WebUI
@@ -15,14 +17,17 @@ namespace PlaneStore.WebUI
 
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddApplication(builder.Configuration);
-            builder.Services.AddInfrastructure(builder.Configuration);
-
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             builder.Services.AddDistributedMemoryCache();
             builder.Services.AddSession();
+
+            builder.Services.AddApplication(builder.Configuration);
+            builder.Services.AddInfrastructure(builder.Configuration);
+
+            builder.Services.AddHttpContextAccessor();
+            builder.Services.AddScoped<Cart>(SessionCart.GetSessionCart);
 
             var app = builder.Build();
 
