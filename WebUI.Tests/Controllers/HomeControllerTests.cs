@@ -8,14 +8,14 @@ using Xunit;
 
 namespace PlaneStore.WebUI.Tests.Controllers
 {
-    public class AircraftControllerTests
+    public class HomeControllerTests
     {
         private readonly IManufacturerRepository _manufacturerRepository;
         private readonly IAircraftRepository _aircraftRepository;
 
-        private readonly AircraftController _controller;
+        private readonly HomeController _controller;
 
-        public AircraftControllerTests()
+        public HomeControllerTests()
         {
             var manufacturers = new[]
             {
@@ -37,7 +37,7 @@ namespace PlaneStore.WebUI.Tests.Controllers
 
             _aircraftRepository = new AircraftRepositoryMock(aircraft, a => a.Id);
 
-            _controller = new AircraftController(_aircraftRepository, _manufacturerRepository);
+            _controller = new HomeController(_aircraftRepository, _manufacturerRepository);
         }
 
         [Fact]
@@ -46,7 +46,7 @@ namespace PlaneStore.WebUI.Tests.Controllers
             var aircraft = _aircraftRepository.GetAll().ToList();
             _controller.PageSize = 3;
 
-            var result = (_controller.List(page: 2) as ViewResult)?.Model as AircraftListViewModel;
+            var result = (_controller.Index(currentPage: 2) as ViewResult)?.Model as HomeViewModel;
 
             List<Aircraft> resultAircraft = result!.Aircraft.ToList();
 
@@ -60,7 +60,7 @@ namespace PlaneStore.WebUI.Tests.Controllers
         {
             _controller.PageSize = 3;
 
-            var result = (_controller.List(page: 2) as ViewResult)?.Model as AircraftListViewModel;
+            var result = (_controller.Index(currentPage: 2) as ViewResult)?.Model as HomeViewModel;
 
             PagingInfo pagingInfo = result!.PagingInfo;
             Assert.Equal(2, pagingInfo.CurrentPage);
@@ -75,7 +75,7 @@ namespace PlaneStore.WebUI.Tests.Controllers
             var manufacturers = _manufacturerRepository.GetAll().ToList();
             _controller.PageSize = 3;
 
-            var result = (_controller.List(manufacturers[1].Id) as ViewResult)?.Model as AircraftListViewModel;
+            var result = (_controller.Index(manufacturers[1].Id) as ViewResult)?.Model as HomeViewModel;
 
             List<Aircraft> resultAircraft = result!.Aircraft.ToList();
 

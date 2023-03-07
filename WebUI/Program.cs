@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
+using PlaneStore.Application;
 using PlaneStore.Infrastructure;
 using PlaneStore.Infrastructure.Data;
-using PlaneStore.Application;
 using System.Globalization;
-using Microsoft.AspNetCore.Localization;
 
 namespace PlaneStore.WebUI
 {
@@ -13,13 +13,13 @@ namespace PlaneStore.WebUI
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddControllersWithViews();
+
             builder.Services.AddApplication(builder.Configuration);
             builder.Services.AddInfrastructure(builder.Configuration);
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-
-            builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
 
@@ -52,14 +52,10 @@ namespace PlaneStore.WebUI
             app.UseStaticFiles();
             app.UseStatusCodePages();
 
-            app.UseRouting();
-
             app.UseAuthorization();
 
-            app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
-            app.MapRazorPages();
+            app.MapControllerRoute("page", "Page{currentPage}", new { Controller = "Home", action = "Index" });
+            app.MapDefaultControllerRoute();
 
             app.Run();
         }

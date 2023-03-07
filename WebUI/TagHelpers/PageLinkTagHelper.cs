@@ -40,7 +40,7 @@ namespace PlaneStore.WebUI.TagHelpers
             {
                 var aBuilder = new TagBuilder("a");
 
-                PageUrlValues["page"] = page;
+                PageUrlValues["currentPage"] = page;
                 aBuilder.Attributes["href"] = urlHelper.Action(PageAction, PageUrlValues);
 
                 if (PageClass is not null)

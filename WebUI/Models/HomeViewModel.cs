@@ -2,10 +2,12 @@
 
 namespace PlaneStore.WebUI.Models
 {
-    public class AircraftListViewModel
+    public class HomeViewModel
     {
         public required IEnumerable<Aircraft> Aircraft { get; set; }
-        public required PagingInfo PagingInfo { get; set; }
+
+        public PagingInfo PagingInfo { get; set; } = new();
+
         public Manufacturer? SelectedManufacturer { get; set; }
     }
 }

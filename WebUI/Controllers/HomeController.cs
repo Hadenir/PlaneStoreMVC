@@ -1,32 +1,50 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
+using PlaneStore.Domain.Entities;
+using PlaneStore.Domain.Repositories;
 using PlaneStore.WebUI.Models;
 
 namespace PlaneStore.WebUI.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        public int PageSize = 4;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IAircraftRepository _aircraftRepository;
+        private readonly IManufacturerRepository _manufacturerRepository;
+
+        public HomeController(IAircraftRepository repository, IManufacturerRepository manufacturerRepository)
         {
-            _logger = logger;
+            _aircraftRepository = repository;
+            _manufacturerRepository = manufacturerRepository;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(Guid? manufacturerId = null, int currentPage = 1)
         {
-            return View();
-        }
+            Manufacturer? manufacturer = manufacturerId is null
+                ? null
+                : _manufacturerRepository.GetById(manufacturerId);
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+            var model = new HomeViewModel
+            {
+                Aircraft = _aircraftRepository
+                    .FindAll(a => manufacturerId == null || a.ManufacturerId == manufacturerId)
+                    .Include(a => a.Manufacturer)
+                    .OrderBy(a => a.Id)
+                    .Skip((currentPage - 1) * PageSize)
+                    .Take(PageSize),
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = currentPage,
+                    ItemsPerPage = PageSize,
+                    TotalItems = _aircraftRepository
+                        .FindAll(a => manufacturerId == null || a.ManufacturerId == manufacturerId)
+                        .Count(),
+                },
+                SelectedManufacturer = manufacturer,
+            };
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(model);
         }
     }
 }
