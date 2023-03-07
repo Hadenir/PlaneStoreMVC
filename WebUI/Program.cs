@@ -21,6 +21,9 @@ namespace PlaneStore.WebUI
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -51,6 +54,8 @@ namespace PlaneStore.WebUI
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseStatusCodePages();
+
+            app.UseSession();
 
             app.UseAuthorization();
 

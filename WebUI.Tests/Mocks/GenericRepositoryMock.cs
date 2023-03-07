@@ -26,7 +26,7 @@ namespace PlaneStore.WebUI.Tests.Mocks
         public void AddRange(IEnumerable<T> entities) => Entities.AddRange(entities);
 
         public void Remove(T entity) => Entities.Remove(entity);
-            
+
         public void RemoveRange(IEnumerable<T> entities) => Entities.RemoveAll(entities.Contains);
 
         public void Update(T entity)
@@ -36,6 +36,6 @@ namespace PlaneStore.WebUI.Tests.Mocks
                 Entities[idx] = entity;
         }
 
-        public void Commit() {}
+        public void Commit() { }
     }
 }

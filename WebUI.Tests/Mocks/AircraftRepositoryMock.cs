@@ -5,7 +5,8 @@ namespace PlaneStore.WebUI.Tests.Mocks
 {
     internal class AircraftRepositoryMock : GenericRepositoryMock<Aircraft>, IAircraftRepository
     {
-        public AircraftRepositoryMock(IEnumerable<Aircraft> entities, Func<Aircraft, Guid> primaryKey) : base(entities, primaryKey)
-        {}
+        public AircraftRepositoryMock(IEnumerable<Aircraft> entities)
+            : base(entities, a => a.Id)
+        { }
     }
 }

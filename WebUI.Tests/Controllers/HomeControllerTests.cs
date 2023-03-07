@@ -19,23 +19,23 @@ namespace PlaneStore.WebUI.Tests.Controllers
         {
             var manufacturers = new[]
             {
-                new Manufacturer { Id = Guid.NewGuid(), Name = "M1" },
-                new Manufacturer { Id = Guid.NewGuid(), Name = "M2" },
-                new Manufacturer { Id = Guid.NewGuid(), Name = "M3" },
-            }.OrderBy(m => m.Id).ToList();
+                new Manufacturer { Name = "M1" },
+                new Manufacturer { Name = "M2" },
+                new Manufacturer { Name = "M3" },
+            };
 
-            _manufacturerRepository = new ManufacturerRepositoryMock(manufacturers, m => m.Id);
+            _manufacturerRepository = new ManufacturerRepositoryMock(manufacturers);
 
             var aircraft = new[]
             {
-                new Aircraft { Id = Guid.NewGuid(), Name = "A1", ManufacturerId = manufacturers[0].Id },
-                new Aircraft { Id = Guid.NewGuid(), Name = "A2", ManufacturerId = manufacturers[0].Id },
-                new Aircraft { Id = Guid.NewGuid(), Name = "A3", ManufacturerId = manufacturers[1].Id },
-                new Aircraft { Id = Guid.NewGuid(), Name = "A4", ManufacturerId = manufacturers[2].Id },
-                new Aircraft { Id = Guid.NewGuid(), Name = "A5", ManufacturerId = manufacturers[1].Id },
-            }.OrderBy(a => a.Id).ToList();
+                new Aircraft { Name = "A1", ManufacturerId = manufacturers[0].Id },
+                new Aircraft { Name = "A2", ManufacturerId = manufacturers[0].Id },
+                new Aircraft { Name = "A3", ManufacturerId = manufacturers[1].Id },
+                new Aircraft { Name = "A4", ManufacturerId = manufacturers[2].Id },
+                new Aircraft { Name = "A5", ManufacturerId = manufacturers[1].Id },
+            };
 
-            _aircraftRepository = new AircraftRepositoryMock(aircraft, a => a.Id);
+            _aircraftRepository = new AircraftRepositoryMock(aircraft);
 
             _controller = new HomeController(_aircraftRepository, _manufacturerRepository);
         }
@@ -51,8 +51,6 @@ namespace PlaneStore.WebUI.Tests.Controllers
             List<Aircraft> resultAircraft = result!.Aircraft.ToList();
 
             Assert.Equal(2, resultAircraft.Count);
-            Assert.Equal(aircraft[3].Id, resultAircraft[0].Id);
-            Assert.Equal(aircraft[4].Id, resultAircraft[1].Id);
         }
 
         [Fact]

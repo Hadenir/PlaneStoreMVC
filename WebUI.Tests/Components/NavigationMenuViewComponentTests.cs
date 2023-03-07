@@ -23,7 +23,7 @@ namespace PlaneStore.WebUI.Tests.Components
                 new Manufacturer { Id = Guid.NewGuid(), Name = "M1" },
             }.OrderBy(m => m.Id).ToList();
 
-            _manufacturerRepository = new ManufacturerRepositoryMock(manufacturers, m => m.Id);
+            _manufacturerRepository = new ManufacturerRepositoryMock(manufacturers);
 
             _component = new NavigationMenuViewComponent(_manufacturerRepository);
         }

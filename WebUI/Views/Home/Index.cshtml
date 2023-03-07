@@ -1,14 +1,21 @@
 ﻿@model HomeViewModel
 
-@foreach (var aircraft in Model.Aircraft)
-{
-    <partial name="AircraftSummary" model="aircraft" />
-}
+<div class="row m-1 p-1">
+    <div id="manufacturers" class="col-3">
+        @await Component.InvokeAsync("NavigationMenu", new { manufacturerId = Model.SelectedManufacturer?.Id })
+    </div>
+    <div class="col-9">
+        @foreach (var aircraft in Model.Aircraft)
+        {
+            <partial name="AircraftSummary" model="aircraft" />
+        }
 
-<div page-action="Index" page-model="@Model.PagingInfo"
-     class="btn-group pull-right m-1"
-     page-class="btn"
-     page-class-normal="btn-outline-secondary"
-     page-class-selected="btn-primary"
-     page-url-manufacturerId="@Model.SelectedManufacturer?.Id">
+        <div page-action="Index" page-model="@Model.PagingInfo"
+            class="btn-group pull-right m-1"
+            page-class="btn"
+            page-class-normal="btn-outline-secondary"
+            page-class-selected="btn-primary"
+            page-url-manufacturerId="@Model.SelectedManufacturer?.Id">
+        </div>
+    </div>
 </div>

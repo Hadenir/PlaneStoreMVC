@@ -7,7 +7,7 @@ using PlaneStore.WebUI.Models;
 
 namespace PlaneStore.WebUI.TagHelpers
 {
-    [HtmlTargetElement("div", Attributes = "page-action,page-model,page-class,page-class-normal,page-class-selected")]
+    [HtmlTargetElement("div", Attributes = "page-action,page-model")]
     public class PageLinkTagHelper : TagHelper
     {
         private readonly IUrlHelperFactory _urlHelperFactory;
