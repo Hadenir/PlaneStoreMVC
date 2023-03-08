@@ -36,5 +36,17 @@ namespace PlaneStore.WebUI.Controllers
 
             return RedirectToAction("Index", new { returnUrl });
         }
+
+        [HttpPost]
+        public IActionResult Remove(Guid aircraftId, string returnUrl)
+        {
+            var aircraft = _aircraftRepository.GetById(aircraftId);
+            if (aircraft is not null)
+            {
+                _cart.RemoveItem(aircraft);
+            }
+
+            return RedirectToAction("Index", new { returnUrl });
+        }
     }
 }

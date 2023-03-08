@@ -1,0 +1,22 @@
+﻿@model Cart
+
+<div>
+    @if (Model.Lines.Count > 0)
+    {
+        <small class="navbar-text">
+            <b>Your cart:</b>
+            @Model.Lines.Sum(l => l.Quantity) item(s)
+            @Model.ComputeTotalPrice().ToString("c")
+        </small>
+    }
+    else
+    {
+
+    }
+    <a class="btn btn-sm btn-secondary"
+       asp-controller="Cart"
+       asp-action="Index"
+       asp-route-returnUrl="@ViewContext.HttpContext.Request.PathAndQuery()">
+        <i class="bi @(Model.Lines.Count > 0 ? "bi-cart-fill" : "bi-cart")"></i>
+    </a>
+</div>

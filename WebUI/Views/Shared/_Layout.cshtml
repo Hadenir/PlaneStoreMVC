@@ -4,11 +4,19 @@
     <meta name="viewport" content="width=device-width" />
     <title>PlaneStore</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap-icons/bootstrap-icons.css" />
 </head>
 <body>
     <nav class="navbar bg-dark text-white p-2">
-        <span class="navbar-brand ml-2">PLANES STORE</span>
+        <div class="container-fluid">
+            <a class="navbar-brand text-white" href="#">PLANES STORE</a>
+            <div class="d-flex navbar-text text-end">
+                @await Component.InvokeAsync("CartSummary")
+            </div>
+        </div>
     </nav>
-    @RenderBody()
+    <div class="m-1 p-1">
+        @RenderBody()
+    </div>
 </body>
 </html>

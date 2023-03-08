@@ -50,10 +50,12 @@ namespace PlaneStore.WebUI.Tests.Controllers
             var aircraft = _aircraftRepository.GetAll().ToList();
 
             var cart = new Cart();
+            cart.AddItem(aircraft[1], 2);
 
             var controller = new CartController(_aircraftRepository, cart);
 
             controller.Add(aircraft[0].Id, "myUrl");
+            controller.Remove(aircraft[1].Id, "myUrl");
 
             Assert.Single(cart.Lines);
             Assert.Equal(aircraft[0].Id, cart.Lines[0].Aircraft.Id);

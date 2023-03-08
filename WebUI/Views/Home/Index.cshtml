@@ -1,6 +1,6 @@
 ﻿@model HomeViewModel
 
-<div class="row m-1 p-1">
+<div class="row">
     <div id="manufacturers" class="col-3">
         @await Component.InvokeAsync("NavigationMenu", new { manufacturerId = Model.SelectedManufacturer?.Id })
     </div>
