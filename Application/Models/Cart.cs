@@ -4,9 +4,8 @@ namespace PlaneStore.Application.Models
 {
     public class CartLine
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
         public required Aircraft Aircraft { get; set; }
-        public int Quantity { get; set; }
+        public int Quantity { get; set; } = 1;
     }
 
     public class Cart

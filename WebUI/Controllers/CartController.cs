@@ -16,7 +16,7 @@ namespace PlaneStore.WebUI.Controllers
             _cart = cart;
         }
 
-        public IActionResult Index(string returnUrl = "/")
+        public ViewResult Index(string returnUrl = "/")
         {
             return View(new CartViewModel
             {

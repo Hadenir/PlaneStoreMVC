@@ -1,0 +1,38 @@
+﻿@model OrderViewModel
+
+<h2>Check out now</h2>
+<p>Please enter your details, and we'll deliver your aircraft right away!</p>
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<form asp-action="Checkout" method="post">
+    <h3>Deliver to</h3>
+    <div class="mb-3">
+        <label for="FirstName" class="form-label">Name:</label>
+        <input asp-for="FirstName" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label for="LastName" class="form-label">Surname:</label>
+        <input asp-for="LastName" class="form-control" />
+    </div>
+    <h3>Address</h3>
+    <div class="mb-3">
+        <label for="Street" class="form-label">Street:</label>
+        <input asp-for="Street" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label for="City" class="form-label">City:</label>
+        <input asp-for="City" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label for="PostCode" class="form-label">Post code:</label>
+        <input asp-for="PostCode" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label for="Country" class="form-label">Country:</label>
+        <input asp-for="Country" class="form-control" />
+    </div>
+    <div class="text-center">
+        <button class="btn btn-primary" type="submit">Complete order</button>
+    </div>
+</form>

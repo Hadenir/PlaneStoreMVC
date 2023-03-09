@@ -33,7 +33,13 @@ namespace PlaneStore.WebUI.Tests.Mocks
         {
             var idx = Entities.IndexOf(entity);
             if (idx >= 0)
+            {
                 Entities[idx] = entity;
+            }
+            else
+            {
+                Entities.Add(entity);
+            }
         }
 
         public void Commit() { }

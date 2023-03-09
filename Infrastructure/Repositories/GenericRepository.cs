@@ -16,21 +16,21 @@ namespace PlaneStore.Infrastructure.Repositories
             dbSet = context.Set<T>();
         }
 
-        public T? GetById(Guid? id) => dbSet.Find(id);
+        public virtual T? GetById(Guid? id) => dbSet.Find(id);
 
-        public IQueryable<T> GetAll() => dbSet.AsQueryable();
+        public virtual IQueryable<T> GetAll() => dbSet.AsQueryable();
 
-        public IQueryable<T> FindAll(Expression<Func<T, bool>> predicate) => dbSet.Where(predicate);
+        public virtual IQueryable<T> FindAll(Expression<Func<T, bool>> predicate) => dbSet.Where(predicate);
 
-        public void Add(T entity) => dbSet.Add(entity);
+        public virtual void Add(T entity) => dbSet.Add(entity);
 
-        public void AddRange(IEnumerable<T> entities) => dbSet.AddRange(entities);
+        public virtual void AddRange(IEnumerable<T> entities) => dbSet.AddRange(entities);
 
-        public void Remove(T entity) => dbSet.Remove(entity);
+        public virtual void Remove(T entity) => dbSet.Remove(entity);
 
-        public void RemoveRange(IEnumerable<T> entities) => dbSet.RemoveRange(entities);
+        public virtual void RemoveRange(IEnumerable<T> entities) => dbSet.RemoveRange(entities);
 
-        public void Update(T entity) => dbSet.Update(entity);
+        public virtual void Update(T entity) => dbSet.Update(entity);
 
         public void Commit()
         {

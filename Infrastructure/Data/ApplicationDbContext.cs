@@ -13,5 +13,7 @@ namespace PlaneStore.Infrastructure.Data
         internal DbSet<Aircraft> Aircraft { get; set; }
 
         internal DbSet<Manufacturer> Manufacturers { get; set; }
+
+        internal DbSet<Order> Orders { get; set; }
     }
 }

@@ -18,8 +18,8 @@ namespace PlaneStore.WebUI.Tests.Controllers
             var manufacturer = new Manufacturer { Name = "M" };
             var aircraft = new[]
             {
-                new Aircraft { Name = "A1", ManufacturerId = manufacturer.Id },
-                new Aircraft { Name = "A2", ManufacturerId = manufacturer.Id },
+                new Aircraft { Id = Guid.NewGuid(), Name = "A1", Manufacturer = manufacturer },
+                new Aircraft { Id = Guid.NewGuid(), Name = "A2", Manufacturer = manufacturer },
             };
 
             _aircraftRepository = new AircraftRepositoryMock(aircraft);
@@ -36,7 +36,7 @@ namespace PlaneStore.WebUI.Tests.Controllers
 
             var controller = new CartController(_aircraftRepository, cart);
 
-            var resultModel = (controller.Index("myUrl") as ViewResult)?.Model as CartViewModel;
+            var resultModel = controller.Index("myUrl").Model as CartViewModel;
 
             var resultCart = resultModel!.Cart;
 
@@ -58,7 +58,7 @@ namespace PlaneStore.WebUI.Tests.Controllers
             controller.Remove(aircraft[1].Id, "myUrl");
 
             Assert.Single(cart.Lines);
-            Assert.Equal(aircraft[0].Id, cart.Lines[0].Aircraft.Id);
+            Assert.Equal(aircraft[0], cart.Lines[0].Aircraft);
             Assert.Equal(1, cart.Lines[0].Quantity);
         }
     }

@@ -26,6 +26,8 @@ namespace PlaneStore.WebUI
             builder.Services.AddApplication(builder.Configuration);
             builder.Services.AddInfrastructure(builder.Configuration);
 
+            builder.Services.AddAutoMapper();
+
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddScoped<Cart>(SessionCart.GetSessionCart);
 

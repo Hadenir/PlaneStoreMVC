@@ -19,20 +19,20 @@ namespace PlaneStore.WebUI.Tests.Controllers
         {
             var manufacturers = new[]
             {
-                new Manufacturer { Name = "M1" },
-                new Manufacturer { Name = "M2" },
-                new Manufacturer { Name = "M3" },
+                new Manufacturer { Id = Guid.NewGuid(), Name = "M1" },
+                new Manufacturer { Id = Guid.NewGuid(), Name = "M2" },
+                new Manufacturer { Id = Guid.NewGuid(), Name = "M3" },
             };
 
             _manufacturerRepository = new ManufacturerRepositoryMock(manufacturers);
 
             var aircraft = new[]
             {
-                new Aircraft { Name = "A1", ManufacturerId = manufacturers[0].Id },
-                new Aircraft { Name = "A2", ManufacturerId = manufacturers[0].Id },
-                new Aircraft { Name = "A3", ManufacturerId = manufacturers[1].Id },
-                new Aircraft { Name = "A4", ManufacturerId = manufacturers[2].Id },
-                new Aircraft { Name = "A5", ManufacturerId = manufacturers[1].Id },
+                new Aircraft { Id = Guid.NewGuid(), Name = "A1", Manufacturer = manufacturers[0] },
+                new Aircraft { Id = Guid.NewGuid(), Name = "A2", Manufacturer = manufacturers[0] },
+                new Aircraft { Id = Guid.NewGuid(), Name = "A3", Manufacturer = manufacturers[1] },
+                new Aircraft { Id = Guid.NewGuid(), Name = "A4", Manufacturer = manufacturers[2] },
+                new Aircraft { Id = Guid.NewGuid(), Name = "A5", Manufacturer = manufacturers[1] },
             };
 
             _aircraftRepository = new AircraftRepositoryMock(aircraft);
@@ -46,7 +46,7 @@ namespace PlaneStore.WebUI.Tests.Controllers
             var aircraft = _aircraftRepository.GetAll().ToList();
             _controller.PageSize = 3;
 
-            var result = (_controller.Index(currentPage: 2) as ViewResult)?.Model as HomeViewModel;
+            var result = _controller.Index(currentPage: 2).Model as HomeViewModel;
 
             List<Aircraft> resultAircraft = result!.Aircraft.ToList();
 
@@ -58,7 +58,7 @@ namespace PlaneStore.WebUI.Tests.Controllers
         {
             _controller.PageSize = 3;
 
-            var result = (_controller.Index(currentPage: 2) as ViewResult)?.Model as HomeViewModel;
+            var result = _controller.Index(currentPage: 2).Model as HomeViewModel;
 
             PagingInfo pagingInfo = result!.PagingInfo;
             Assert.Equal(2, pagingInfo.CurrentPage);
@@ -73,13 +73,13 @@ namespace PlaneStore.WebUI.Tests.Controllers
             var manufacturers = _manufacturerRepository.GetAll().ToList();
             _controller.PageSize = 3;
 
-            var result = (_controller.Index(manufacturers[1].Id) as ViewResult)?.Model as HomeViewModel;
+            var result = _controller.Index(manufacturers[1].Id).Model as HomeViewModel;
 
             List<Aircraft> resultAircraft = result!.Aircraft.ToList();
 
             Assert.Equal(2, resultAircraft.Count);
-            Assert.Equal(manufacturers[1].Id, resultAircraft[0].ManufacturerId);
-            Assert.Equal(manufacturers[1].Id, resultAircraft[1].ManufacturerId);
+            Assert.Equal(manufacturers[1], resultAircraft[0].Manufacturer);
+            Assert.Equal(manufacturers[1], resultAircraft[1].Manufacturer);
         }
     }
 }

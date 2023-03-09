@@ -22,6 +22,7 @@ namespace PlaneStore.Infrastructure
 
             services.AddScoped<IManufacturerRepository, ManufacturerRepository>();
             services.AddScoped<IAircraftRepository, AircraftRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
 
             return services;
         }
