@@ -1,0 +1,87 @@
+﻿@using PlaneStore.WebUI.Areas.Admin.Models
+@model OrdersViewModel
+
+<table class="table table-sm table-striped table-bordered align-middle">
+    <thead>
+        <tr>
+            <th colspan="5" class="text-center">Undelivered Orders</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.UndeliveredOrders.Any())
+        {
+            @foreach (var order in Model.UndeliveredOrders)
+            {
+                <tr>
+                    <td>@order.FullName</td>
+                    <td>@order.ComputeTotalPrice().ToString("c")</td>
+                    <th>Aircraft</th>
+                    <th>Quantity</th>
+                    <td class="col-fit">
+                        <form asp-controller="Orders" asp-action="Deliver" method="post">
+                            <input type="hidden" name="orderId" value="@order.Id" />
+                            <button class="btn btn-sm btn-warning m-1" type="submit">Deliver</button>
+                        </form>
+                    </td>
+                </tr>
+                @foreach (var line in order.Lines)
+                {
+                    <tr>
+                        <td colspan="2"></td>
+                        <td>@line.Aircraft.Name</td>
+                        <td>@line.Quantity</td>
+                        <td></td>
+                    </tr>
+                }
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center">No orders</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<table class="table table-sm table-striped table-bordered align-middle">
+    <thead>
+        <tr>
+            <th colspan="5" class="text-center">Delivered Orders</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.DeliveredOrders.Any())
+        {
+            @foreach (var order in Model.DeliveredOrders)
+            {
+                <tr>
+                    <td>@order.FullName</td>
+                    <td>@order.ComputeTotalPrice().ToString("c")</td>
+                    <th>Aircraft</th>
+                    <th>Quantity</th>
+                    <td class="col-fit">
+                        <form asp-controller="Orders" asp-action="Reset" method="post">
+                            <input type="hidden" name="orderId" value="@order.Id" />
+                            <button class="btn btn-sm btn-warning m-1" type="submit">Reset</button>
+                        </form>
+                    </td>
+                </tr>
+                @foreach (var line in order.Lines)
+                {
+                    <tr>
+                        <td colspan="2"></td>
+                        <td>@line.Aircraft.Name</td>
+                        <td>@line.Quantity</td>
+                        <td></td>
+                    </tr>
+                }
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center">No delivered orders</td>
+            </tr>
+        }
+    </tbody>
+</table>

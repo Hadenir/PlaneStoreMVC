@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Manufacturer>
+
+<table class="table table-sm table-striped table-bordered align-middle">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Any())
+        {
+            @foreach (var manufacturer in Model)
+            {
+                <tr>
+                    <td>@manufacturer.Name</td>
+                    <td class="col-fit">
+                        <a class="btn btn-sm btn-info m-1"
+                           asp-action="Details"
+                           asp-route-id="@manufacturer.Id">
+                            Details
+                        </a>
+                        <a class="btn btn-sm btn-warning m-1"
+                           asp-action="Edit"
+                           asp-route-id="@manufacturer.Id">
+                            Edit
+                        </a>
+                        <a class="btn btn-sm btn-danger m-1"
+                           asp-action="Remove"
+                           asp-route-id="@manufacturer.Id">
+                            Remove
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="2" class="text-center">No manufacturers</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a class="btn btn-primary" asp-action="Create">Create new</a>

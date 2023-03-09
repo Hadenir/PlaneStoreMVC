@@ -9,5 +9,8 @@ namespace PlaneStore.Infrastructure.Repositories
     {
         public AircraftRepository(ApplicationDbContext context) : base(context)
         {}
+
+        public override Aircraft? GetById(Guid? id)
+            => dbSet.Include(a => a.Manufacturer).FirstOrDefault(a => a.Id == id);
     }
 }

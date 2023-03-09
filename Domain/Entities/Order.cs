@@ -22,5 +22,9 @@
         public required string PostCode { get; set; }
 
         public required string Country { get; set; }
+
+        public bool IsDelivered { get; set; } = false;
+
+        public decimal ComputeTotalPrice() => Lines.Sum(l => l.Quantity * l.Aircraft.Price);
     }
 }

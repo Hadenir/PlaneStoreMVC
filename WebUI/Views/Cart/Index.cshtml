@@ -21,7 +21,7 @@
                 <td class="text-end">
                     @((line.Quantity * line.Aircraft.Price).ToString("c"))
                 </td>
-                <td class="text-center">
+                <td class="col-fit">
                     <form asp-controller="Cart" asp-action="Remove" method="post">
                         <input type="hidden" name="aircraftId" value="@line.Aircraft.Id" />
                         <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />

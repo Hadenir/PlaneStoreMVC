@@ -15,6 +15,7 @@ namespace PlaneStore.WebUI
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddRouting(options => options.LowercaseUrls = true);
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -66,7 +67,13 @@ namespace PlaneStore.WebUI
 
             app.UseAuthorization();
 
-            app.MapControllerRoute("page", "Page{currentPage}", new { Controller = "Home", action = "Index" });
+            app.MapControllerRoute(
+                "admin",
+                "Admin/{controller=Aircraft}/{action=Index}/{id?}",
+                defaults: new { area = "Admin" },
+                constraints: new { area = "Admin" });
+            app.MapControllerRoute("area", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+            app.MapControllerRoute("page", "Page{currentPage}", new { controller = "Home", action = "Index" });
             app.MapDefaultControllerRoute();
 
             app.Run();

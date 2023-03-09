@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Planes Store - Administration</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap-icons/bootstrap-icons.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <nav class="navbar bg-primary text-white p-2">
+        <div class="container-fluid">
+            <a class="navbar-brand text-white" href="#">PLANES STORE - Administration</a>
+            <div class="d-flex navbar-text text-end">
+                <a class="btn btn-sm btn-secondary"
+                   asp-area=""
+                   asp-controller="Home"
+                   asp-action="Index">
+                    <i class="bi bi-house-door-fill"></i>
+                    Back to Store
+                </a>
+            </div>
+        </div>
+    </nav>
+    <div class="m-1 p-1">
+        <div class="container-fluid">
+            <div class="row">
+                <div id="manufacturers" class="col-3">
+                    <div class="d-grid gap-2">
+                        @{
+                            var controller = ViewContext.RouteData.Values.GetValueOrDefault("controller");
+                        }
+                        <a class="btn @(string.Equals(controller, "Aircraft") ? "btn-primary" : "btn-outline-secondary")"
+                           asp-controller="Aircraft"
+                           asp-action="Index">
+                            Aircraft
+                        </a>
+                        <a class="btn @(string.Equals(controller, "Manufacturers") ? "btn-primary" : "btn-outline-secondary")"
+                           asp-controller="Manufacturers"
+                           asp-action="Index">
+                            Manufacturers
+                        </a>
+                        <a class="btn @(string.Equals(controller, "Orders") ? "btn-primary" : "btn-outline-secondary")"
+                           asp-controller="Orders"
+                           asp-action="Index">
+                            Orders
+                        </a>
+                    </div>
+                </div>
+                <div class="col-9">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

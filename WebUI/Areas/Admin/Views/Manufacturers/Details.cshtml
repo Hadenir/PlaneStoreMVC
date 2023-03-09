@@ -1,0 +1,55 @@
+﻿@model Manufacturer
+
+<h3 class="bg-info text-white text-center p-1">Manufacturer Details</h3>
+
+<table class="table table-sm table-bordered table-striped">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>@Model.Id</td>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td>@Model.Name</td>
+        </tr>
+    </tbody>
+</table>
+<a class="btn btn-warning mb-3" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+<a class="btn btn-danger mb-3" asp-action="Remove" asp-route-id="@Model.Id">Remove</a>
+<table class="table table-sm table-bordered table-striped align-middle">
+    <thead>
+        <tr>
+            <th colspan="2" class="text-center">Produced Aircraft</th>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.ProducedAircraft.Any())
+        {
+            @foreach (var aircraft in Model.ProducedAircraft)
+            {
+                <tr>
+                    <td>@aircraft.Name</td>
+                    <td class="col-fit">
+                        <a class="btn btn-sm btn-info m-1"
+                           asp-controller="Aircraft"
+                           asp-action="Details"
+                           asp-route-aircraftId="@aircraft.Id">
+                            Details
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="2" class="text-center">No produced aircraft</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a class="btn btn-outline-secondary" asp-action="Index">Back</a>

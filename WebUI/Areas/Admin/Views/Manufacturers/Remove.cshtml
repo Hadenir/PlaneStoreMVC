@@ -1,0 +1,22 @@
+﻿@model Manufacturer
+
+<h3>Are you sure you want to remove this Manufacturer?</h3>
+
+<table class="table table-sm table-bordered table-striped">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>@Model.Id</td>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td>@Model.Name</td>
+        </tr>
+    </tbody>
+</table>
+
+<form class="d-inline-block" asp-action="Remove" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Remove</button>
+</form>
+<a class="btn btn-outline-secondary" asp-action="Index">Cancel</a>

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using PlaneStore.Application.Models;
+using PlaneStore.Application.Services;
 using PlaneStore.Domain.Entities;
 using PlaneStore.Domain.Repositories;
 using PlaneStore.WebUI.Models;
@@ -10,12 +11,12 @@ namespace PlaneStore.WebUI.Controllers
     public class OrderController : Controller
     {
         private readonly Cart _cart;
-        private readonly IOrderRepository _orderRepository;
+        private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
 
-        public OrderController(Cart cart, IOrderRepository orderRepository, IMapper mapper)
+        public OrderController(Cart cart, IOrderService orderService, IMapper mapper)
         {
-            _orderRepository = orderRepository;
+            _orderService = orderService;
             _cart = cart;
             _mapper = mapper;
         }
@@ -34,11 +35,10 @@ namespace PlaneStore.WebUI.Controllers
             {
                 var order = _mapper.Map<Order>(orderModel);
                 order.Lines = _mapper.Map<List<OrderLine>>(_cart.Lines);
-                _orderRepository.Update(order);
-                _orderRepository.Commit();
+                var orderId = _orderService.PlaceOrder(order);
 
                 _cart.Clear();
-                return RedirectToAction("Completed", new { orderId = order.Id });
+                return RedirectToAction("Completed", new { orderId });
             }
 
             return View();

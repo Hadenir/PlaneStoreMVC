@@ -1,0 +1,21 @@
+﻿@using PlaneStore.WebUI.Areas.Admin.Models
+@model ManufacturerViewModel
+
+@{
+    var title = Model.Id is null ? "Create" : "Edit";
+}
+
+<h3 class="bg-info text-white text-center p-1">@title a Manufacturer</h3>
+
+<form asp-action="Update" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <div class="input-group mb-3">
+        <label class="input-group-text" for="Name">Name</label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+    <div class="mt-2">
+        <button typeof="submit" class="btn btn-primary">@title</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+    </div>
+</form>

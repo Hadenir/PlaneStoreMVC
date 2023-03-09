@@ -9,9 +9,9 @@ namespace PlaneStore.Application.Tests.Models
         [Fact]
         public void Can_Add_New_Lines()
         {
-            var m = new Manufacturer { Name = "M1" };
-            var a1 = new Aircraft { Name = "A1", Manufacturer = m };
-            var a2 = new Aircraft { Name = "A2", Manufacturer = m };
+            var m = new Manufacturer { Id = Guid.NewGuid(), Name = "M1" };
+            var a1 = new Aircraft { Id = Guid.NewGuid(), Name = "A1", Manufacturer = m };
+            var a2 = new Aircraft { Id = Guid.NewGuid(), Name = "A2", Manufacturer = m };
 
             var cart = new Cart();
 
@@ -27,8 +27,8 @@ namespace PlaneStore.Application.Tests.Models
         public void Can_Add_Quantity_To_Existing_Lines()
         {
             var m = new Manufacturer { Name = "M1" };
-            var a1 = new Aircraft { Name = "A1", Manufacturer = m };
-            var a2 = new Aircraft { Name = "A2", Manufacturer = m };
+            var a1 = new Aircraft { Id = Guid.NewGuid(), Name = "A1", Manufacturer = m };
+            var a2 = new Aircraft { Id = Guid.NewGuid(), Name = "A2", Manufacturer = m };
 
             var cart = new Cart();
 
@@ -47,9 +47,9 @@ namespace PlaneStore.Application.Tests.Models
         public void Can_Remove_Line()
         {
             var m = new Manufacturer { Name = "M1" };
-            var a1 = new Aircraft { Name = "A1", Manufacturer = m };
-            var a2 = new Aircraft { Name = "A2", Manufacturer = m };
-            var a3 = new Aircraft { Name = "A3", Manufacturer = m };
+            var a1 = new Aircraft { Id = Guid.NewGuid(), Name = "A1", Manufacturer = m };
+            var a2 = new Aircraft { Id = Guid.NewGuid(), Name = "A2", Manufacturer = m };
+            var a3 = new Aircraft { Id = Guid.NewGuid(), Name = "A3", Manufacturer = m };
 
             var cart = new Cart();
 
@@ -67,9 +67,9 @@ namespace PlaneStore.Application.Tests.Models
         [Fact]
         public void Can_Calculate_Total()
         {
-            var m = new Manufacturer { Name = "M1" };
-            var a1 = new Aircraft { Name = "A1", Price = 100_000, Manufacturer = m };
-            var a2 = new Aircraft { Name = "A2", Price = 50_000, Manufacturer = m };
+            var m = new Manufacturer { Id = Guid.NewGuid(), Name = "M1" };
+            var a1 = new Aircraft { Id = Guid.NewGuid(), Name = "A1", Price = 100_000, Manufacturer = m };
+            var a2 = new Aircraft { Id = Guid.NewGuid(), Name = "A2", Price = 50_000, Manufacturer = m };
 
             var cart = new Cart();
 
@@ -85,9 +85,9 @@ namespace PlaneStore.Application.Tests.Models
         [Fact]
         public void Can_Clear_Items()
         {
-            var m = new Manufacturer { Name = "M1" };
-            var a1 = new Aircraft { Name = "A1", Manufacturer = m };
-            var a2 = new Aircraft { Name = "A2", Manufacturer = m };
+            var m = new Manufacturer { Id = Guid.NewGuid(), Name = "M1" };
+            var a1 = new Aircraft { Id = Guid.NewGuid(), Name = "A1", Manufacturer = m };
+            var a2 = new Aircraft { Id = Guid.NewGuid(), Name = "A2", Manufacturer = m };
 
             var cart = new Cart();
 

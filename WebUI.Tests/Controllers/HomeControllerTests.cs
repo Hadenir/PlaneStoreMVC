@@ -43,7 +43,6 @@ namespace PlaneStore.WebUI.Tests.Controllers
         [Fact]
         public void Can_Paginate()
         {
-            var aircraft = _aircraftRepository.GetAll().ToList();
             _controller.PageSize = 3;
 
             var result = _controller.Index(currentPage: 2).Model as HomeViewModel;

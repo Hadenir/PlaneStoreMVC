@@ -1,4 +1,5 @@
-﻿using PlaneStore.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using PlaneStore.Domain.Entities;
 using PlaneStore.Domain.Repositories;
 using PlaneStore.Infrastructure.Data;
 
@@ -8,5 +9,8 @@ namespace PlaneStore.Infrastructure.Repositories
     {
         public ManufacturerRepository(ApplicationDbContext context) : base(context)
         { }
+
+        public override Manufacturer? GetById(Guid? id)
+            => dbSet.Include(m => m.ProducedAircraft).FirstOrDefault(m => m.Id == id);
     }
 }
