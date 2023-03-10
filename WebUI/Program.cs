@@ -40,6 +40,7 @@ namespace PlaneStore.WebUI
                 app.UseMigrationsEndPoint();
                 app.UseDeveloperExceptionPage();
                 app.EnsureDatabasePopulated();
+                app.UseStatusCodePages();
             }
             else
             {
@@ -61,10 +62,10 @@ namespace PlaneStore.WebUI
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseStatusCodePages();
 
             app.UseSession();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

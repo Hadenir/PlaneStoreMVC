@@ -1,10 +1,11 @@
-﻿using PlaneStore.Domain.Repositories;
+﻿using PlaneStore.Application.Utilities;
+using PlaneStore.Domain.Repositories;
 
 namespace PlaneStore.Application.Services
 {
     public interface IManufacturerService
     {
-        bool RemoveManufacturer(Guid manufacturerId);
+        void RemoveManufacturer(Guid manufacturerId);
     }
 
     internal class ManufacturerService : IManufacturerService
@@ -16,18 +17,21 @@ namespace PlaneStore.Application.Services
             _manufacturerRepository = manufacturerRepository;
         }
 
-        public bool RemoveManufacturer(Guid manufacturerId)
+        public void RemoveManufacturer(Guid manufacturerId)
         {
             var manufacturer = _manufacturerRepository.GetById(manufacturerId);
-            if (manufacturer is null || manufacturer.ProducedAircraft.Any())
+
+            if (manufacturer is null)
             {
-                return false;
+                throw new OperationException("Cannot remove nonexisting manufacturer");
+            }
+            if (manufacturer.ProducedAircraft.Any())
+            {
+                throw new OperationException("Cannot remove manufacturer relating to existing aircraft");
             }
 
             _manufacturerRepository.Remove(manufacturer);
             _manufacturerRepository.Commit();
-
-            return true;
         }
     }
 }

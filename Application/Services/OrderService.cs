@@ -1,4 +1,5 @@
-﻿using PlaneStore.Domain.Entities;
+﻿using PlaneStore.Application.Utilities;
+using PlaneStore.Domain.Entities;
 using PlaneStore.Domain.Repositories;
 
 namespace PlaneStore.Application.Services
@@ -21,7 +22,7 @@ namespace PlaneStore.Application.Services
         {
             if (!order.Lines.Any())
             {
-                throw new Exception("Cannot place an empty order");
+                throw new OperationException("Cannot place an empty order");
             }
 
             _orderRepository.Update(order);

@@ -25,3 +25,7 @@ td.col-fit, th.col-fit {
     width: 1%;
     white-space: nowrap;
 }
+
+.input-validation-error ~ .invalid-feedback, .input-validation-error ~ .invalid-tooltip {
+    display: block;
+}

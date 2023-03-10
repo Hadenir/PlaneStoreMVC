@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PlaneStore.Application.Services;
+using PlaneStore.Application.Utilities;
 using PlaneStore.Domain.Entities;
 using PlaneStore.Domain.Repositories;
 using PlaneStore.WebUI.Areas.Admin.Models;
@@ -21,60 +23,124 @@ namespace PlaneStore.WebUI.Areas.Admin.Controllers
             _mapper = mapper;
         }
 
-        public ViewResult Index() => View(_manufacturerRepository.GetAll());
-
-        public IActionResult Details(Guid id)
+        public ViewResult Index()
         {
-            var manufacturer = _manufacturerRepository.GetById(id);
-            if (manufacturer is null)
-                return NotFound();
+            var manufacturers = _manufacturerRepository.GetAll().AsNoTracking();
 
-            return View(manufacturer);
+            return View(_mapper.ProjectTo<ManufacturerViewModel>(manufacturers));
         }
 
-        public ViewResult Create() => View("Edit", new ManufacturerViewModel());
-
-        public IActionResult Edit(Guid id)
+        public IActionResult Details(Guid? id)
         {
             var manufacturer = _manufacturerRepository.GetById(id);
             if (manufacturer is null)
+            {
                 return NotFound();
+            }
+
+            return View(_mapper.Map<ManufacturerViewModel>(manufacturer));
+        }
+
+        public ViewResult Create() => View(new ManufacturerViewModel());
+
+        [HttpPost]
+        public IActionResult Create(ManufacturerViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var manufacturer = _mapper.Map<Manufacturer>(model);
+                    _manufacturerRepository.Add(manufacturer);
+                    _manufacturerRepository.Commit();
+
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            catch (DbUpdateException)
+            {
+                ModelState.AddModelError("", "Unable to save changes to database.");
+            }
+
+            return View(model);
+        }
+
+        public IActionResult Edit(Guid? id)
+        {
+            var manufacturer = _manufacturerRepository.GetById(id);
+            if (manufacturer is null)
+            {
+                return NotFound();
+            }
 
             var viewModel = _mapper.Map<ManufacturerViewModel>(manufacturer);
             return View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult Update(ManufacturerViewModel model)
+        public IActionResult Edit(ManufacturerViewModel model)
         {
             var manufacturer = _manufacturerRepository.GetById(model.Id);
             if (manufacturer is null)
             {
-                manufacturer = _mapper.Map<Manufacturer>(model);
+                return NotFound();
             }
-            else
+
+            try
             {
-                _mapper.Map(model, manufacturer);
+                if (ModelState.IsValid)
+                {
+                    _mapper.Map(model, manufacturer);
+                    _manufacturerRepository.Update(manufacturer);
+                    _manufacturerRepository.Commit();
+
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            catch (DbUpdateException)
+            {
+                ModelState.AddModelError("", "Unable to save changes to database.");
             }
 
-            _manufacturerRepository.Update(manufacturer);
-            _manufacturerRepository.Commit();
-
-            return RedirectToAction("Index");
+            return View(model);
         }
 
-        public ViewResult Remove(Guid id) => View(_manufacturerRepository.GetById(id));
-
-        [HttpPost]
-        [ActionName("Remove")]
-        public IActionResult RemovePost(Guid id)
+        public IActionResult Remove(Guid? id)
         {
-            if(!_manufacturerService.RemoveManufacturer(id))
+            var manufacturer = _manufacturerRepository.GetById(id);
+            if (manufacturer is null)
             {
-                return BadRequest("Could not remove manufacturer");
+                return NotFound();
             }
 
-            return RedirectToAction("Index");
+            return View(_mapper.Map<ManufacturerViewModel>(manufacturer));
+        }
+
+        [HttpPost, ActionName("Remove")]
+        public IActionResult RemovePost(Guid? id)
+        {
+            var manufacturer = _manufacturerRepository.GetById(id);
+            if (manufacturer is null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                _manufacturerService.RemoveManufacturer(manufacturer.Id);
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException)
+            {
+                ModelState.AddModelError("", "Unable to save changes to database.");
+            }
+            catch (OperationException ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+            }
+
+            return View(_mapper.Map<ManufacturerViewModel>(manufacturer));
         }
     }
 }

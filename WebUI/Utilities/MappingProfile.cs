@@ -10,13 +10,13 @@ namespace PlaneStore.WebUI.Utilities
     {
         public MappingProfile()
         {
-            CreateMap<ManufacturerViewModel, Manufacturer>()
+            CreateMap<Manufacturer, ManufacturerViewModel>()
                 .ReverseMap();
-            CreateMap<AircraftViewModel, Aircraft>()
-                .ReverseMap()
-                    .ForMember(
-                        dest => dest.Price,
-                        opt => opt.MapFrom(src => src.Manufacturer.Id));
+            CreateMap<Aircraft, AircraftViewModel>()
+                .ForMember(
+                    dest => dest.ManufacturerId,
+                    opt => opt.MapFrom(src => src.Manufacturer.Id))
+                .ReverseMap();
 
             CreateMap<CartLine, OrderLine>();
             CreateMap<OrderViewModel, Order>()

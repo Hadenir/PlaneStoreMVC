@@ -1,10 +1,10 @@
-﻿@model IEnumerable<Manufacturer>
+﻿@model IEnumerable<ManufacturerViewModel>
 
 <table class="table table-sm table-striped table-bordered align-middle">
     <thead>
         <tr>
-            <th>Name</th>
-            <th></th>
+            <th>@Html.DisplayNameFor(m => m.Name)</th>
+            <th class="col-fit">Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -13,7 +13,7 @@
             @foreach (var manufacturer in Model)
             {
                 <tr>
-                    <td>@manufacturer.Name</td>
+                    <td>@Html.DisplayFor(_ => manufacturer.Name)</td>
                     <td class="col-fit">
                         <a class="btn btn-sm btn-info m-1"
                            asp-action="Details"
@@ -42,4 +42,6 @@
         }
     </tbody>
 </table>
-<a class="btn btn-primary" asp-action="Create">Create new</a>
+<div class="text-end mx-2">
+    <a class="btn btn-success " asp-action="Create">Create new</a>
+</div>

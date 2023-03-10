@@ -1,0 +1,51 @@
+﻿@model ManufacturerViewModel
+
+<table class="table table-sm table-bordered table-striped">
+    <tbody>
+        <tr>
+            <th>@Html.DisplayNameFor(m => m.Id)</th>
+            <td>@Html.DisplayFor(m => m.Id)</td>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(m => m.Name)</th>
+            <td>@Html.DisplayFor(m => m.Name)</td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="table table-sm table-bordered table-striped align-middle">
+    <thead>
+        <tr>
+            <th colspan="2" class="text-center">Produced Aircraft</th>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(m => m.ProducedAircraft.First().Name)</th>
+            <th class="col-fit">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.ProducedAircraft.Any())
+        {
+            @foreach (var aircraft in Model.ProducedAircraft)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(_ => aircraft.Name)</td>
+                    <td class="col-fit">
+                        <a class="btn btn-sm btn-info m-1"
+                           asp-controller="Aircraft"
+                           asp-action="Details"
+                           asp-route-aircraftId="@aircraft.Id">
+                            Details
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="2" class="text-center">No produced aircraft</td>
+            </tr>
+        }
+    </tbody>
+</table>
