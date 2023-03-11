@@ -6,17 +6,20 @@ namespace PlaneStore.WebUI.Areas.Admin.Models
     {
         public Guid? Id { get; set; }
 
-        [Required(ErrorMessage = "Please enter the aircraft name")]
+        [Required(ErrorMessage = "Please enter the aircraft name.")]
         public string? Name { get; set; }
 
-        public string Description { get; set; } = string.Empty;
+        public string? Description { get; set; }
 
-        [Required]
-        [Range(0.01, double.MaxValue, ErrorMessage = "Please enter a correct price")]
-        public decimal Price { get; set; }
+        [Required(ErrorMessage = "Please enter a price.")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Please enter a correct price.")]
+        [DataType(DataType.Currency)]
+        public decimal? Price { get; set; }
 
         [Display(Name = "Manufacturer")]
-        [Required(ErrorMessage = "Please select a manufacturer")]
+        [Required(ErrorMessage = "Please select a manufacturer.")]
         public Guid? ManufacturerId { get; set; }
+
+        public ManufacturerViewModel? Manufacturer { get; set; }
     }
 }

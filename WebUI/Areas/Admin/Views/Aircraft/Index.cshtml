@@ -1,2 +1,56 @@
-﻿
-<h1>This is the Aircraft panel</h1>
+﻿@model IEnumerable<AircraftViewModel>
+
+<table class="table table-sm table-striped table-bordered align-middle">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(m => m.Name)</th>
+            <th>@Html.DisplayNameFor(m => m.Manufacturer)</th>
+            <th>@Html.DisplayNameFor(m => m.Price)</th>
+            <th class="col-fit">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Any())
+        {
+            @foreach (var aircraft in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(_ => aircraft.Name)</td>
+                    <td>@Html.DisplayFor(_ => aircraft.Manufacturer!.Name)</td>
+                    <td>@Html.DisplayFor(_ => aircraft.Price)</td>
+                    <td class="col-fit">
+                        <a class="btn btn-sm btn-info m-1"
+                           asp-action="Details"
+                           asp-route-id="@aircraft.Id">
+                            Details
+                        </a>
+                        <a class="btn btn-sm btn-warning m-1"
+                           asp-action="Edit"
+                           asp-route-id="@aircraft.Id">
+                            Edit
+                        </a>
+                        <a class="btn btn-sm btn-danger m-1"
+                           asp-action="Remove"
+                           asp-route-id="@aircraft.Id">
+                            Remove
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="2" class="text-center">No aircraft</td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3"></td>
+            <td class="text-center">
+                <a class="btn btn-sm btn-success m-1" asp-action="Create">Create new</a>
+            </td>
+        </tr>
+    </tfoot>
+</table>

@@ -22,19 +22,36 @@ namespace PlaneStore.Infrastructure.Repositories
 
         public virtual IQueryable<T> FindAll(Expression<Func<T, bool>> predicate) => dbSet.Where(predicate);
 
-        public virtual void Add(T entity) => dbSet.Add(entity);
+        public virtual void Add(T entity)
+        {
+            Attach(entity);
+            dbSet.Add(entity);
+        }
 
-        public virtual void AddRange(IEnumerable<T> entities) => dbSet.AddRange(entities);
+        public virtual void AddRange(IEnumerable<T> entities)
+        {
+            foreach (var e in entities)
+            {
+                Attach(e);
+            }
+            dbSet.AddRange(entities);
+        }
 
         public virtual void Remove(T entity) => dbSet.Remove(entity);
 
         public virtual void RemoveRange(IEnumerable<T> entities) => dbSet.RemoveRange(entities);
 
-        public virtual void Update(T entity) => dbSet.Update(entity);
+        public virtual void Update(T entity)
+        {
+            Attach(entity);
+            dbSet.Update(entity);
+        }
 
         public void Commit()
         {
             dbContext.SaveChanges();
         }
+
+        protected virtual void Attach(T entity) { }
     }
 }

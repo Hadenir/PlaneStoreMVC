@@ -1,0 +1,9 @@
+﻿@model AircraftViewModel
+
+<h3 class="bg-info text-white text-center p-1">Aircraft Details</h3>
+
+@Html.DisplayForModel()
+
+<a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+<a class="btn btn-danger" asp-action="Remove" asp-route-id="@Model.Id">Remove</a>
+<a class="btn btn-outline-secondary" asp-action="Index">Back</a>

@@ -1,0 +1,25 @@
+﻿@model AircraftViewModel
+
+<input type="hidden" asp-for="Id" />
+<div class="input-group has-validation mb-2">
+    <label asp-for="Name" class="input-group-text"></label>
+    <input asp-for="Name" class="form-control" />
+    <span asp-validation-for="Name" class="invalid-feedback"></span>
+</div>
+<div class="input-group has-validation mb-2">
+    <label asp-for="Description" class="input-group-text"></label>
+    <input asp-for="Description" class="form-control" />
+    <span asp-validation-for="Description" class="invalid-feedback"></span>
+</div>
+<div class="input-group has-validation mb-2">
+    <label asp-for="ManufacturerId" class="input-group-text"></label>
+    <select class="form-select" asp-for="ManufacturerId" asp-items="@ViewBag.Manufacturers">
+        <option selected disabled>Select manufacturer</option>
+    </select>
+    <span asp-validation-for="ManufacturerId" class="invalid-feedback"></span>
+</div>
+<div class="input-group has-validation mb-2">
+    <label asp-for="Price" class="input-group-text"></label>
+    <input asp-for="Price" class="form-control" />
+    <span asp-validation-for="Price" class="invalid-feedback"></span>
+</div>

@@ -6,7 +6,7 @@ namespace PlaneStore.WebUI.Areas.Admin.Models
     {
         public Guid? Id { get; set; }
 
-        [Required(ErrorMessage = "Please enter a name", AllowEmptyStrings = false)]
+        [Required(ErrorMessage = "Please enter a name.")]
         public string? Name { get; set; }
 
         public ICollection<AircraftViewModel> ProducedAircraft { get; set; } = new List<AircraftViewModel>();

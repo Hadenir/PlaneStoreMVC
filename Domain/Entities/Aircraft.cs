@@ -12,7 +12,8 @@ namespace PlaneStore.Domain.Entities
 
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
-        
-        public required Manufacturer Manufacturer { get; set; }
+
+        public required Guid ManufacturerId { get; set; }
+        public Manufacturer? Manufacturer { get; set; }
     }
 }

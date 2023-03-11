@@ -1,0 +1,30 @@
+﻿@model AircraftViewModel
+
+<table class="table table-sm table-bordered table-striped">
+    <tbody>
+        <tr>
+            <th>@Html.DisplayNameFor(m => m.Id)</th>
+            <td>@Html.DisplayFor(m => m.Id)</td>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(m => m.Name)</th>
+            <td>@Html.DisplayFor(m => m.Name)</td>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(m => m.Description)</th>
+            <td>@Html.DisplayFor(m => m.Description)</td>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(m => m.ManufacturerId)</th>
+            <td>
+                <a asp-controller="Manufacturers" asp-action="Details" asp-route-id="@Model.ManufacturerId">
+                    @Html.DisplayFor(m => m.Manufacturer!.Name)
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(m => m.Price)</th>
+            <td>@Html.DisplayFor(m => m.Price)</td>
+        </tr>
+    </tbody>
+</table>

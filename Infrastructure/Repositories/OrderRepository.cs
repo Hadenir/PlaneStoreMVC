@@ -13,11 +13,10 @@ namespace PlaneStore.Infrastructure.Repositories
         public override Order? GetById(Guid? id)
             => dbSet.Include(o => o.Lines).ThenInclude(l => l.Aircraft).FirstOrDefault(o => o.Id == id);
 
-        public override void Update(Order order)
+        protected override void Attach(Order order)
         {
             // Let EF know that the aircraft inside order already exist.
             dbContext.AttachRange(order.Lines.Select(l => l.Aircraft));
-            base.Update(order);
         }
     }
 }
