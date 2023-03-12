@@ -63,7 +63,7 @@ namespace PlaneStore.WebUI.Areas.Admin.Controllers
                 if (ModelState.IsValid)
                 {
                     var aircraft = _mapper.Map<Aircraft>(model);
-                    _aircraftService.AddAircraft(aircraft);
+                    //_aircraftService.AddAircraft(aircraft);
 
                     return RedirectToAction(nameof(Index));
                 }

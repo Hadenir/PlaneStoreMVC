@@ -28,11 +28,11 @@ namespace PlaneStore.WebUI.Tests.Controllers
 
             var aircraft = new[]
             {
-                new Aircraft { Id = Guid.NewGuid(), Name = "A1", Manufacturer = manufacturers[0] },
-                new Aircraft { Id = Guid.NewGuid(), Name = "A2", Manufacturer = manufacturers[0] },
-                new Aircraft { Id = Guid.NewGuid(), Name = "A3", Manufacturer = manufacturers[1] },
-                new Aircraft { Id = Guid.NewGuid(), Name = "A4", Manufacturer = manufacturers[2] },
-                new Aircraft { Id = Guid.NewGuid(), Name = "A5", Manufacturer = manufacturers[1] },
+                new Aircraft { Id = Guid.NewGuid(), Name = "A1", ManufacturerId = manufacturers[0].Id },
+                new Aircraft { Id = Guid.NewGuid(), Name = "A2", ManufacturerId = manufacturers[0].Id },
+                new Aircraft { Id = Guid.NewGuid(), Name = "A3", ManufacturerId = manufacturers[1].Id },
+                new Aircraft { Id = Guid.NewGuid(), Name = "A4", ManufacturerId = manufacturers[2].Id },
+                new Aircraft { Id = Guid.NewGuid(), Name = "A5", ManufacturerId = manufacturers[1].Id },
             };
 
             _aircraftRepository = new AircraftRepositoryMock(aircraft);
@@ -77,8 +77,8 @@ namespace PlaneStore.WebUI.Tests.Controllers
             List<Aircraft> resultAircraft = result!.Aircraft.ToList();
 
             Assert.Equal(2, resultAircraft.Count);
-            Assert.Equal(manufacturers[1], resultAircraft[0].Manufacturer);
-            Assert.Equal(manufacturers[1], resultAircraft[1].Manufacturer);
+            Assert.Equal(manufacturers[1].Id, resultAircraft[0].ManufacturerId);
+            Assert.Equal(manufacturers[1].Id, resultAircraft[1].ManufacturerId);
         }
     }
 }

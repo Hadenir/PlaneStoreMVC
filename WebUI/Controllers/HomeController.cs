@@ -28,7 +28,7 @@ namespace PlaneStore.WebUI.Controllers
             var model = new HomeViewModel
             {
                 Aircraft = _aircraftRepository
-                    .FindAll(a => manufacturerId == null || a.Manufacturer.Id == manufacturerId)
+                    .FindAll(a => manufacturerId == null || a.ManufacturerId == manufacturerId)
                     .Include(a => a.Manufacturer)
                     .OrderBy(a => a.Id)
                     .Skip((currentPage - 1) * PageSize)
@@ -38,7 +38,7 @@ namespace PlaneStore.WebUI.Controllers
                     CurrentPage = currentPage,
                     ItemsPerPage = PageSize,
                     TotalItems = _aircraftRepository
-                        .FindAll(a => manufacturerId == null || a.Manufacturer.Id == manufacturerId)
+                        .FindAll(a => manufacturerId == null || a.ManufacturerId == manufacturerId)
                         .Count(),
                 },
                 SelectedManufacturer = manufacturer,

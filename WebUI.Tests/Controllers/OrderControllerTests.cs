@@ -47,7 +47,7 @@ namespace PlaneStore.WebUI.Tests.Controllers
             var orderService = new Mock<IOrderService>();
 
             var cart = new Cart();
-            cart.AddItem(new Aircraft { Name = "A1", Manufacturer = new Manufacturer { Name = "M1" } }, 1);
+            cart.AddItem(new Aircraft { Id = Guid.NewGuid(), Name = "A1", ManufacturerId = Guid.NewGuid() }, 1);
 
             var orderModel = new OrderViewModel();
             var controller = new OrderController(cart, orderService.Object, _mapper);
@@ -66,7 +66,7 @@ namespace PlaneStore.WebUI.Tests.Controllers
             var orderService = new Mock<IOrderService>();
 
             var cart = new Cart();
-            cart.AddItem(new Aircraft { Name = "A1", Manufacturer = new Manufacturer { Name = "M1" } }, 1);
+            cart.AddItem(new Aircraft { Id = Guid.NewGuid(), Name = "A1", ManufacturerId = Guid.NewGuid() }, 1);
 
             var orderModel = new OrderViewModel();
             var controller = new OrderController(cart, orderService.Object, _mapper);

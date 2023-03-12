@@ -18,8 +18,8 @@ namespace PlaneStore.WebUI.Tests.Controllers
             var manufacturer = new Manufacturer { Name = "M" };
             var aircraft = new[]
             {
-                new Aircraft { Id = Guid.NewGuid(), Name = "A1", Manufacturer = manufacturer },
-                new Aircraft { Id = Guid.NewGuid(), Name = "A2", Manufacturer = manufacturer },
+                new Aircraft { Id = Guid.NewGuid(), Name = "A1", ManufacturerId = manufacturer.Id },
+                new Aircraft { Id = Guid.NewGuid(), Name = "A2", ManufacturerId = manufacturer.Id },
             };
 
             _aircraftRepository = new AircraftRepositoryMock(aircraft);
