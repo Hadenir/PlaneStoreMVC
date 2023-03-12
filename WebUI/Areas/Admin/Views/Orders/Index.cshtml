@@ -18,7 +18,7 @@
                     <th>Quantity</th>
                     <td class="col-fit">
                         <form asp-controller="Orders" asp-action="Deliver" method="post">
-                            <input type="hidden" name="orderId" value="@order.Id" />
+                            <input type="hidden" name="id" value="@order.Id" />
                             <button class="btn btn-sm btn-warning m-1" type="submit">Deliver</button>
                         </form>
                     </td>
@@ -60,7 +60,7 @@
                     <th>Quantity</th>
                     <td class="col-fit">
                         <form asp-controller="Orders" asp-action="Reset" method="post">
-                            <input type="hidden" name="orderId" value="@order.Id" />
+                            <input type="hidden" name="id" value="@order.Id" />
                             <button class="btn btn-sm btn-warning m-1" type="submit">Reset</button>
                         </form>
                     </td>

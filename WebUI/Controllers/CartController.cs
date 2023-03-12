@@ -1,18 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PlaneStore.Application.Models;
-using PlaneStore.Domain.Repositories;
+using PlaneStore.Application.Services;
 using PlaneStore.WebUI.Models;
 
 namespace PlaneStore.WebUI.Controllers
 {
     public class CartController : Controller
     {
-        private readonly IAircraftRepository _aircraftRepository;
+        private readonly IAircraftService _aircraftService;
         private readonly Cart _cart;
 
-        public CartController(IAircraftRepository aircraftRepository, Cart cart)
+        public CartController(IAircraftService aircraftService, Cart cart)
         {
-            _aircraftRepository = aircraftRepository;
+            _aircraftService = aircraftService;
             _cart = cart;
         }
 
@@ -28,25 +28,25 @@ namespace PlaneStore.WebUI.Controllers
         [HttpPost]
         public IActionResult Add(Guid aircraftId, string returnUrl)
         {
-            var aircraft = _aircraftRepository.GetById(aircraftId);
+            var aircraft = _aircraftService.GetAircraftById(aircraftId);
             if (aircraft is not null)
             {
                 _cart.AddItem(aircraft, 1);
             }
 
-            return RedirectToAction("Index", new { returnUrl });
+            return RedirectToAction(nameof(Index), new { returnUrl });
         }
 
         [HttpPost]
         public IActionResult Remove(Guid aircraftId, string returnUrl)
         {
-            var aircraft = _aircraftRepository.GetById(aircraftId);
+            var aircraft = _aircraftService.GetAircraftById(aircraftId);
             if (aircraft is not null)
             {
                 _cart.RemoveItem(aircraft);
             }
 
-            return RedirectToAction("Index", new { returnUrl });
+            return RedirectToAction(nameof(Index), new { returnUrl });
         }
     }
 }

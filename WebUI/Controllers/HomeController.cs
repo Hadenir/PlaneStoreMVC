@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using PlaneStore.Domain.Entities;
-using PlaneStore.Domain.Repositories;
+using PlaneStore.Application.Services;
 using PlaneStore.WebUI.Models;
 
 namespace PlaneStore.WebUI.Controllers
@@ -10,26 +8,27 @@ namespace PlaneStore.WebUI.Controllers
     {
         public int PageSize = 4;
 
-        private readonly IAircraftRepository _aircraftRepository;
-        private readonly IManufacturerRepository _manufacturerRepository;
+        private readonly IAircraftService _aircraftService;
+        private readonly IManufacturerService _manufacturerService;
 
-        public HomeController(IAircraftRepository repository, IManufacturerRepository manufacturerRepository)
+        public HomeController(IAircraftService aircraftService, IManufacturerService manufacturerService)
         {
-            _aircraftRepository = repository;
-            _manufacturerRepository = manufacturerRepository;
+            _aircraftService = aircraftService;
+            _manufacturerService = manufacturerService;
         }
 
         public ViewResult Index(Guid? manufacturerId = null, int currentPage = 1)
         {
-            Manufacturer? manufacturer = manufacturerId is null
+            var manufacturer = manufacturerId is null
                 ? null
-                : _manufacturerRepository.GetById(manufacturerId);
+                : _manufacturerService.GetManufacturerById(manufacturerId);
+
+            var aircraftFiltered = _aircraftService.GetAircraft()
+                    .Where(a => manufacturerId == null || a.ManufacturerId == manufacturerId);
 
             var model = new HomeViewModel
             {
-                Aircraft = _aircraftRepository
-                    .FindAll(a => manufacturerId == null || a.ManufacturerId == manufacturerId)
-                    .Include(a => a.Manufacturer)
+                Aircraft = aircraftFiltered
                     .OrderBy(a => a.Id)
                     .Skip((currentPage - 1) * PageSize)
                     .Take(PageSize),
@@ -37,9 +36,7 @@ namespace PlaneStore.WebUI.Controllers
                 {
                     CurrentPage = currentPage,
                     ItemsPerPage = PageSize,
-                    TotalItems = _aircraftRepository
-                        .FindAll(a => manufacturerId == null || a.ManufacturerId == manufacturerId)
-                        .Count(),
+                    TotalItems = aircraftFiltered.Count(),
                 },
                 SelectedManufacturer = manufacturer,
             };

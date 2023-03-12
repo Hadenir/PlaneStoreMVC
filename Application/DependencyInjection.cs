@@ -9,6 +9,7 @@ namespace PlaneStore.Application
         public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IManufacturerService, ManufacturerService>();
+            services.AddScoped<IAircraftService, AircraftService>();
             services.AddScoped<IOrderService, OrderService>();
 
             return services;

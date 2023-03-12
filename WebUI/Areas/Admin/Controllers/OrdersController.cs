@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using PlaneStore.Domain.Repositories;
+using PlaneStore.Application.Services;
 using PlaneStore.WebUI.Areas.Admin.Models;
 
 namespace PlaneStore.WebUI.Areas.Admin.Controllers
@@ -8,53 +8,49 @@ namespace PlaneStore.WebUI.Areas.Admin.Controllers
     [Area("Admin")]
     public class OrdersController : Controller
     {
-        private readonly IOrderRepository _orderRepository;
+        private readonly IOrderService _orderService;
 
-        public OrdersController(IOrderRepository orderRepository)
+        public OrdersController(IOrderService orderService)
         {
-            _orderRepository = orderRepository;
+            _orderService = orderService;
         }
 
         public ViewResult Index()
         {
-            var allOrders = _orderRepository
-                .GetAll()
-                .Include(o => o.Lines)
-                .ThenInclude(l => l.Aircraft)
-                .ToList();
+            var orders = _orderService.GetOrders().AsNoTracking();
 
             return View(new OrdersViewModel
             {
-                AllOrders = allOrders,
-                UndeliveredOrders = allOrders.Where(o => !o.IsDelivered),
-                DeliveredOrders = allOrders.Where(o => o.IsDelivered),
+                AllOrders = orders,
+                UndeliveredOrders = orders.Where(o => !o.IsDelivered),
+                DeliveredOrders = orders.Where(o => o.IsDelivered),
             });
         }
 
         [HttpPost]
-        public IActionResult Deliver(Guid orderId)
+        public IActionResult Deliver(Guid? id)
         {
-            var order = _orderRepository.GetById(orderId);
+            var order = _orderService.GetOrderById(id);
             if (order is not null)
             {
                 order.IsDelivered = true;
-                _orderRepository.Commit();
+                _orderService.UpdateOrder(order);
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
-        public IActionResult Reset(Guid orderId)
+        public IActionResult Reset(Guid? id)
         {
-            var order = _orderRepository.GetById(orderId);
+            var order = _orderService.GetOrderById(id);
             if (order is not null)
             {
                 order.IsDelivered = false;
-                _orderRepository.Commit();
+                _orderService.UpdateOrder(order);
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
     }
 }

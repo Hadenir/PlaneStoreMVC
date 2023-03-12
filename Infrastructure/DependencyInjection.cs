@@ -2,9 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PlaneStore.Domain.Repositories;
+using PlaneStore.Domain;
 using PlaneStore.Infrastructure.Data;
-using PlaneStore.Infrastructure.Repositories;
 
 namespace PlaneStore.Infrastructure
 {
@@ -20,9 +19,7 @@ namespace PlaneStore.Infrastructure
                     b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddScoped<IManufacturerRepository, ManufacturerRepository>();
-            services.AddScoped<IAircraftRepository, AircraftRepository>();
-            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
             return services;
         }

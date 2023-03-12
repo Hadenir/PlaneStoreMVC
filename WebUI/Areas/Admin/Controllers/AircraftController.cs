@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using PlaneStore.Application.Services;
+using PlaneStore.Application.Utilities;
 using PlaneStore.Domain.Entities;
-using PlaneStore.Domain.Repositories;
 using PlaneStore.WebUI.Areas.Admin.Models;
 
 namespace PlaneStore.WebUI.Areas.Admin.Controllers
@@ -11,33 +12,30 @@ namespace PlaneStore.WebUI.Areas.Admin.Controllers
     [Area("Admin")]
     public class AircraftController : Controller
     {
-        private readonly IAircraftRepository _aircraftRepository;
-        private readonly IManufacturerRepository _manufacturerRepository;
+        private readonly IAircraftService _aircraftService;
+        private readonly IManufacturerService _manufacturerService;
         private readonly IMapper _mapper;
 
         public AircraftController(
-            IAircraftRepository aircraftRepository,
-            IManufacturerRepository manufacturerRepository,
+            IAircraftService aircraftService,
+            IManufacturerService manufacturerService,
             IMapper mapper)
         {
-            _aircraftRepository = aircraftRepository;
-            _manufacturerRepository = manufacturerRepository;
+            _aircraftService = aircraftService;
+            _manufacturerService = manufacturerService;
             _mapper = mapper;
         }
 
         public ViewResult Index()
         {
-            var aircraft = _aircraftRepository
-                .GetAll()
-                .Include(a => a.Manufacturer)
-                .AsNoTracking();
+            var aircraft = _aircraftService.GetAircraft().AsNoTracking();
 
             return View(_mapper.ProjectTo<AircraftViewModel>(aircraft));
         }
 
         public IActionResult Details(Guid? id)
         {
-            var aircraft = _aircraftRepository.GetById(id);
+            var aircraft = _aircraftService.GetAircraftById(id);
             if (aircraft is null)
             {
                 return NotFound();
@@ -48,10 +46,7 @@ namespace PlaneStore.WebUI.Areas.Admin.Controllers
 
         public ViewResult Create()
         {
-            ViewBag.Manufacturers = _manufacturerRepository
-                .GetAll()
-                .AsNoTracking()
-                .Select(m => new SelectListItem { Value = m.Id.ToString(), Text = m.Name });
+            ViewBag.Manufacturers = PrepareManufacturersList();
             return View(new AircraftViewModel());
         }
 
@@ -63,7 +58,7 @@ namespace PlaneStore.WebUI.Areas.Admin.Controllers
                 if (ModelState.IsValid)
                 {
                     var aircraft = _mapper.Map<Aircraft>(model);
-                    //_aircraftService.AddAircraft(aircraft);
+                    _aircraftService.AddAircraft(aircraft);
 
                     return RedirectToAction(nameof(Index));
                 }
@@ -72,11 +67,12 @@ namespace PlaneStore.WebUI.Areas.Admin.Controllers
             {
                 ModelState.AddModelError("", "Unable to save changes to database.");
             }
+            catch (ServiceException ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+            }
 
-            ViewBag.Manufacturers = _manufacturerRepository
-                .GetAll()
-                .AsNoTracking()
-                .Select(m => new SelectListItem { Value = m.Id.ToString(), Text = m.Name });
+            ViewBag.Manufacturers = PrepareManufacturersList();
             return View(model);
         }
 
@@ -101,5 +97,9 @@ namespace PlaneStore.WebUI.Areas.Admin.Controllers
         //{
 
         //}
+
+        private IEnumerable<SelectListItem> PrepareManufacturersList()
+            => _manufacturerService.GetManufacturers()
+                .Select(m => new SelectListItem { Value = m.Id.ToString(), Text = m.Name });
     }
 }

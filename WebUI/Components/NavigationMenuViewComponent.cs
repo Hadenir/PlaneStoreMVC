@@ -1,25 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PlaneStore.Domain.Repositories;
+using Microsoft.AspNetCore.Mvc.ViewComponents;
+using PlaneStore.Application.Services;
 using PlaneStore.WebUI.Models.Components;
 
 namespace PlaneStore.WebUI.Components
 {
     public class NavigationMenuViewComponent : ViewComponent
     {
-        private readonly IManufacturerRepository _manufacturerRepository;
+        private readonly IManufacturerService _manufacturerService;
 
-        public NavigationMenuViewComponent(IManufacturerRepository manufacturerRepository)
+        public NavigationMenuViewComponent(IManufacturerService manufacturerService)
         {
-            _manufacturerRepository = manufacturerRepository;
+            _manufacturerService = manufacturerService;
         }
 
-        public IViewComponentResult Invoke(Guid? manufacturerId = null)
+        public ViewViewComponentResult Invoke(Guid? manufacturerId = null)
         {
-            var selectedManufacturer = _manufacturerRepository.GetById(manufacturerId);
             var model = new NavigationMenuViewModel
             {
-                SelectedManufacturer = selectedManufacturer,
-                Manufacturers = _manufacturerRepository.GetAll().OrderBy(m => m.Name),
+                SelectedManufacturer = _manufacturerService.GetManufacturerById(manufacturerId),
+                Manufacturers = _manufacturerService.GetManufacturers().OrderBy(m => m.Name),
             };
 
             return View(model);

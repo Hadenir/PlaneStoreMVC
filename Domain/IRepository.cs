@@ -1,10 +1,9 @@
 ﻿using System.Linq.Expressions;
 
-namespace PlaneStore.Domain.Repositories
+namespace PlaneStore.Domain
 {
-    public interface IGenericRepository<T> where T : class
+    public interface IRepository<T> where T : class
     {
-        T? GetById(Guid? id);
         IQueryable<T> GetAll();
         IQueryable<T> FindAll(Expression<Func<T, bool>> predicate);
         void Add(T entity);
@@ -12,6 +11,9 @@ namespace PlaneStore.Domain.Repositories
         void Remove(T entity);
         void RemoveRange(IEnumerable<T> entities);
         void Update(T entity);
+
+        void Attach(object entity);
+        void AttachRange(IEnumerable<object> entities);
 
         void Commit();
     }
