@@ -13,9 +13,6 @@ namespace PlaneStore.WebUI.Utilities
             CreateMap<Manufacturer, ManufacturerViewModel>()
                 .ReverseMap();
             CreateMap<Aircraft, AircraftViewModel>()
-                .ForMember(
-                    dest => dest.ManufacturerId,
-                    opt => opt.MapFrom(src => src.Manufacturer.Id))
                 .ReverseMap();
 
             CreateMap<CartLine, OrderLine>();

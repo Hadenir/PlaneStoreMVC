@@ -76,27 +76,90 @@ namespace PlaneStore.WebUI.Areas.Admin.Controllers
             return View(model);
         }
 
-        //public IActionResult Edit(Guid id?)
-        //{
+        public IActionResult Edit(Guid? id)
+        {
+            var aircraft = _aircraftService.GetAircraftById(id);
+            if (aircraft is null)
+            {
+                return NotFound();
+            }
 
-        //}
+            ViewBag.Manufacturers = PrepareManufacturersList();
+            var model = _mapper.Map<AircraftViewModel>(aircraft);
+            return View(model);
+        }
 
-        //[HttpPost]
-        //public IActionResult Edit(AircraftViewModel model)
-        //{
+        [HttpPost]
+        public IActionResult Edit(AircraftViewModel model)
+        {
+            var aircraft = _aircraftService.GetAircraftById(model.Id);
+            if (aircraft is null)
+            {
+                return NotFound();
+            }
 
-        //}
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _mapper.Map(model, aircraft);
+                    _aircraftService.UpdateAircraft(aircraft);
 
-        //public IActionResult Remove(Guid? id)
-        //{
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            catch (DbUpdateException)
+            {
+                ModelState.AddModelError("", "Unable to save changes to database.");
+            }
+            catch (ServiceException ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+            }
 
-        //}
+            ViewBag.Manufacturers = PrepareManufacturersList();
+            return View(model);
+        }
 
-        //[HttpPost, ActionName("Remove")]
-        //public IActionResult RemovePost(Guid? id)
-        //{
+        public IActionResult Remove(Guid? id)
+        {
+            var aircraft = _aircraftService.GetAircraftById(id);
+            if (aircraft is null)
+            {
+                return NotFound();
+            }
 
-        //}
+            ViewBag.Manufacturers = PrepareManufacturersList();
+            return View(_mapper.Map<AircraftViewModel>(aircraft));
+        }
+
+        [HttpPost, ActionName("Remove")]
+        public IActionResult RemovePost(Guid? id)
+        {
+            var aircraft = _aircraftService.GetAircraftById(id);
+            if (aircraft is null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                _aircraftService.RemoveAircraftById(aircraft.Id);
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException)
+            {
+                ModelState.AddModelError("", "Unable to save changes to database.");
+            }
+            catch (ServiceException ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+            }
+
+            ViewBag.Manufacturers = PrepareManufacturersList();
+            return View(_mapper.Map<AircraftViewModel>(aircraft));
+        }
 
         private IEnumerable<SelectListItem> PrepareManufacturersList()
             => _manufacturerService.GetManufacturers()

@@ -1,0 +1,16 @@
+﻿@model AircraftViewModel
+
+<h3 class="bg-danger text-white text-center p-1">Remove an Aircraft</h3>
+
+@Html.DisplayForModel()
+
+<div class="fw-bold">Are you sure you want to remove this Aircraft?</div>
+
+<div class="mt-2">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <form class="d-inline-block" asp-action="Remove" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Remove</button>
+    </form>
+    <a class="btn btn-outline-secondary" asp-action="Index">Cancel</a>
+</div>
