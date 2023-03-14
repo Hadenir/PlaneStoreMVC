@@ -8,8 +8,7 @@ using PlaneStore.WebUI.Areas.Admin.Models;
 
 namespace PlaneStore.WebUI.Areas.Admin.Controllers
 {
-    [Area("Admin")]
-    public class ManufacturersController : Controller
+    public class ManufacturersController : AdminControllerBase
     {
         private readonly IManufacturerService _manufacturerService;
         private readonly IMapper _mapper;

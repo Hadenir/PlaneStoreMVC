@@ -9,8 +9,7 @@ using PlaneStore.WebUI.Areas.Admin.Models;
 
 namespace PlaneStore.WebUI.Areas.Admin.Controllers
 {
-    [Area("Admin")]
-    public class AircraftController : Controller
+    public class AircraftController : AdminControllerBase
     {
         private readonly IAircraftService _aircraftService;
         private readonly IManufacturerService _manufacturerService;

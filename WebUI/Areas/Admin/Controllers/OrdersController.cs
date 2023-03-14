@@ -5,8 +5,7 @@ using PlaneStore.WebUI.Areas.Admin.Models;
 
 namespace PlaneStore.WebUI.Areas.Admin.Controllers
 {
-    [Area("Admin")]
-    public class OrdersController : Controller
+    public class OrdersController : AdminControllerBase
     {
         private readonly IOrderService _orderService;
 

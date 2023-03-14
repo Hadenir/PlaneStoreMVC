@@ -54,12 +54,6 @@
         </div>
     </div>
 
-    <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('.input-validation-error').addClass('is-invalid').removeClass('input-validation-error');
-            $('.field-validation-error').addClass('is-invalid').removeClass('field-validation-error');
-        });
-    </script>
+    @Html.Partial("~/Views/Shared/_ValidationScriptsPartial.cshtml")
 </body>
 </html>

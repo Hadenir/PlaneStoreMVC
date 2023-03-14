@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using PlaneStore.Domain.Entities;
@@ -7,7 +8,7 @@ namespace PlaneStore.Infrastructure.Data
 {
     internal static class SeedData
     {
-        public static void EnsurePopulated(IApplicationBuilder app)
+        public static async void EnsurePopulated(IApplicationBuilder app)
         {
             using var scope = app.ApplicationServices.CreateScope();
             var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
@@ -83,6 +84,22 @@ namespace PlaneStore.Infrastructure.Data
                 dbContext.Aircraft.AddRange(aircraft);
 
                 dbContext.SaveChanges();
+            }
+
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+            var adminUserName = "Admin";
+            var adminEmail = "admin@example.com";
+            var adminPassword = "Secret123$";
+            var user = await userManager.FindByNameAsync(adminUserName);
+            if (user is null)
+            {
+                user = new IdentityUser
+                {
+                    UserName = adminUserName,
+                    Email = adminEmail,
+                };
+
+                await userManager.CreateAsync(user, adminPassword);
             }
         }
     }
