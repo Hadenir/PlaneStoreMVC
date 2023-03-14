@@ -2,8 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PlaneStore.Domain;
+using PlaneStore.Domain.DataAccess;
 using PlaneStore.Infrastructure.Data;
+using PlaneStore.Infrastructure.DataAccess;
 
 namespace PlaneStore.Infrastructure
 {

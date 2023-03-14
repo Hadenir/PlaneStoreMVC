@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PlaneStore.Application.Utilities;
-using PlaneStore.Domain;
+using PlaneStore.Domain.DataAccess;
 using PlaneStore.Domain.Entities;
 
 namespace PlaneStore.Application.Services

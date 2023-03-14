@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace PlaneStore.Domain
+namespace PlaneStore.Domain.DataAccess
 {
     public interface IRepository<T> where T : class
     {

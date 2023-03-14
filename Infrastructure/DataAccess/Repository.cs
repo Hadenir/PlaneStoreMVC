@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PlaneStore.Domain;
+using PlaneStore.Domain.DataAccess;
 using PlaneStore.Infrastructure.Data;
 using System.Linq.Expressions;
 
-namespace PlaneStore.Infrastructure
+namespace PlaneStore.Infrastructure.DataAccess
 {
     internal class Repository<T> : IRepository<T> where T : class
     {
