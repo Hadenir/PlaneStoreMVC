@@ -97,6 +97,7 @@ namespace PlaneStore.Infrastructure.Data
                 {
                     UserName = adminUserName,
                     Email = adminEmail,
+                    EmailConfirmed = true,
                 };
 
                 await userManager.CreateAsync(user, adminPassword);

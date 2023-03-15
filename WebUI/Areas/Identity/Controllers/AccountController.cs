@@ -1,57 +1,47 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using PlaneStore.Application.Services;
 using PlaneStore.WebUI.Areas.Identity.Models;
 
 namespace PlaneStore.WebUI.Areas.Identity.Controllers
 {
-    public class AccountController : IdentityControllerBase
-    {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+	public class AccountController : IdentityControllerBase
+	{
+		private readonly IAccountService _accountService;
 
-        public AccountController(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
-        {
-            _userManager = userManager;
-            _signInManager = signInManager;
-        }
+		public AccountController(IAccountService accountService)
+		{
+			_accountService = accountService;
+		}
 
-        public ViewResult Login(string returnUrl)
-            => View(new LoginViewModel
-            {
-                ReturnUrl = returnUrl
-            });
+		public ViewResult Login(string returnUrl = "/")
+			=> View(new LoginViewModel
+			{
+				ReturnUrl = returnUrl
+			});
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = await _userManager.FindByNameAsync(model.Name!);
-                if (user is not null)
-                {
-                    await _signInManager.SignOutAsync();
-                    var signInResult = await _signInManager.PasswordSignInAsync(user, model.Password!, false, false);
-                    if (signInResult.Succeeded)
-                    {
-                        return Redirect(model.ReturnUrl ?? "/Admin");
-                    }
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Login(LoginViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				if (await _accountService.SignInAsync(model.UserName!, model.Password!))
+				{
+					return Redirect(model.ReturnUrl ?? "/Admin");
+				}
 
-                    ModelState.AddModelError("", "Invalid user name or password.");
-                }
-            }
+				ModelState.AddModelError("", "Failed to sign in. Check user name or password.");
+			}
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        [Authorize]
-        public async Task<IActionResult> Logout(string returnUrl = "/")
-        {
-            await _signInManager.SignOutAsync();
-            return Redirect(returnUrl);
-        }
-    }
+		[Authorize]
+		public async Task<IActionResult> Logout(string returnUrl = "/")
+		{
+			await _accountService.SignOutAsync();
+			return Redirect(returnUrl);
+		}
+	}
 }

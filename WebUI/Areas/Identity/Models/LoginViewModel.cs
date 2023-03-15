@@ -6,7 +6,7 @@ namespace PlaneStore.WebUI.Areas.Identity.Models
     {
         [Display(Name = "User Name")]
         [Required(ErrorMessage = "Please enter a user name")]
-        public string? Name { get; set; }
+        public string? UserName { get; set; }
 
         [Required(ErrorMessage = "Please enter a password")]
         public string? Password { get; set; }

@@ -18,9 +18,6 @@ namespace PlaneStore.WebUI
             builder.Services.AddRouting(options => options.LowercaseUrls = true);
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-
             builder.Services.AddDistributedMemoryCache();
             builder.Services.AddSession();
 
@@ -31,6 +28,12 @@ namespace PlaneStore.WebUI
 
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddScoped<Cart>(SessionCart.GetSessionCart);
+
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/identity/account/login";
+                options.LogoutPath = "/identity/account/logout";
+            });
 
             var app = builder.Build();
 
