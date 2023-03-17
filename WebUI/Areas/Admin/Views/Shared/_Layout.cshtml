@@ -12,12 +12,18 @@
         <div class="container-fluid">
             <a class="navbar-brand text-white" href="#">PLANES STORE - Administration</a>
             <div class="d-flex navbar-text text-end">
-                <a class="btn btn-sm btn-secondary"
+                <a class="btn btn-sm btn-secondary mx-2"
                    asp-area=""
                    asp-controller="Home"
                    asp-action="Index">
                     <i class="bi bi-house-door-fill"></i>
                     Back to Store
+                </a>
+                <a class="btn btn-sm btn-secondary mx-2"
+                   asp-controller="Account"
+                   asp-action="Logout">
+                    <i class="bi bi-box-arrow-left"></i>
+                    Logout
                 </a>
             </div>
         </div>
